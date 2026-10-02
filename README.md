@@ -28,7 +28,7 @@ permita:
   - El límite máximo de asignaturas permitidas por semestre.
 ## Integrantes
 - Integrante 1: Julian Alberto Fernandez Vera
-- Integrante 2: \(Nombre\)
+- Integrante 2: Juliana Rodríguez Pizano
 - Integrante 3: \(Nombre\)
 - Integrante 4: \(Nombre\)
 - Integrante 5: \(Nombre\)
