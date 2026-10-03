@@ -29,7 +29,7 @@ permita:
 ## Integrantes
 - Integrante 1: Julian Alberto Fernandez Vera
 - Integrante 2: Juliana Rodríguez Pizano
-- Integrante 3: \(Nombre\)
+- Integrante 3: Johann Gabriel Manrique Ortiz
 - Integrante 4: \(Nombre\)
 - Integrante 5: \(Nombre\)
 ## Lenguaje de programación
