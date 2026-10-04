@@ -31,7 +31,7 @@ jobs:
     # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
     - name: Set up Gradle
-      uses: gradle/actions@v6
+      uses: gradle/actions/setup-gradle@v6
 
     - name: Build with Gradle Wrapper
       run: ./gradlew build
