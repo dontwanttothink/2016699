@@ -3,9 +3,13 @@
 	"java.autobuild.enabled": false,
 	"java.compile.nullAnalysis.mode": "disabled",
 	"editor.formatOnSave": true,
+	"editor.insertSpaces": false,
+	"editor.tabSize": 4,
+	"java.format.settings.url": "./eclipse-formatter.xml",
+	"java.format.settings.profile": "Eclipse",
 	"[java]": {
 		"editor.defaultFormatter": "redhat.java",
 		"editor.formatOnPaste": true,
 		"editor.formatOnType": true
-	}
+	},
 }

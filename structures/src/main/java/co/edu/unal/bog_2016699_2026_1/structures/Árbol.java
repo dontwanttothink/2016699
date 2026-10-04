@@ -1,6 +1,6 @@
 package co.edu.unal.bog_2016699_2026_1.structures;
 
-class Arreglo {
+class Árbol {
 	void calcularSemestres() {
 	}
 

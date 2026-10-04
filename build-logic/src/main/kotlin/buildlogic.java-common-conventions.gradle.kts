@@ -43,8 +43,10 @@ java {
 
 spotless {
     java {
-        googleJavaFormat()
-        leadingSpacesToTabs(2)
+        // Use the Eclipse JDT formatter so build, VS Code (JDT LS) and Eclipse IDE
+        // all share the same formatting rules from eclipse-formatter.xml.
+        eclipse()
+            .configFile(rootProject.file("eclipse-formatter.xml"))
         removeUnusedImports()
         trimTrailingWhitespace()
         endWithNewline()
