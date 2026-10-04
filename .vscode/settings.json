@@ -1,5 +1,11 @@
 {
 	"java.configuration.updateBuildConfiguration": "automatic",
 	"java.autobuild.enabled": false,
-	"java.compile.nullAnalysis.mode": "disabled"
+	"java.compile.nullAnalysis.mode": "disabled",
+	"editor.formatOnSave": true,
+	"[java]": {
+		"editor.defaultFormatter": "redhat.java",
+		"editor.formatOnPaste": true,
+		"editor.formatOnType": true
+	}
 }

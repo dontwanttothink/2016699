@@ -3,19 +3,18 @@
  */
 package co.edu.unal.bog_2016699_2026_1.app;
 
-import co.edu.unal.bog_2016699_2026_1.structures.LinkedList;
-
 import static co.edu.unal.bog_2016699_2026_1.algorithm.StringUtils.join;
 import static co.edu.unal.bog_2016699_2026_1.algorithm.StringUtils.split;
 import static co.edu.unal.bog_2016699_2026_1.app.MessageUtils.getMessage;
 
+import co.edu.unal.bog_2016699_2026_1.structures.LinkedList;
 import org.apache.commons.text.WordUtils;
 
 public class App {
-    public static void main(String[] args) {
-        LinkedList tokens;
-        tokens = split(getMessage());
-        String result = join(tokens);
-        System.out.println(WordUtils.capitalize(result));
-    }
+	public static void main(String[] args) {
+		LinkedList tokens;
+		tokens = split(getMessage());
+		String result = join(tokens);
+		System.out.println(WordUtils.capitalize(result));
+	}
 }

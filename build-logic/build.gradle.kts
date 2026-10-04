@@ -13,3 +13,8 @@ repositories {
     // Use the plugin portal to apply community plugins in convention plugins.
     gradlePluginPortal()
 }
+
+dependencies {
+    // Make the Spotless plugin available to precompiled convention plugins.
+    implementation("com.diffplug.spotless:com.diffplug.spotless.gradle.plugin:8.10.3")
+}

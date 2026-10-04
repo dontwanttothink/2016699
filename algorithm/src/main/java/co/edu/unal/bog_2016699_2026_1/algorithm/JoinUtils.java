@@ -6,15 +6,15 @@ package co.edu.unal.bog_2016699_2026_1.algorithm;
 import co.edu.unal.bog_2016699_2026_1.structures.LinkedList;
 
 class JoinUtils {
-    public static String join(LinkedList source) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < source.size(); ++i) {
-            if (result.length() > 0) {
-                result.append(" ");
-            }
-            result.append(source.get(i));
-        }
+	public static String join(LinkedList source) {
+		StringBuilder result = new StringBuilder();
+		for (int i = 0; i < source.size(); ++i) {
+			if (result.length() > 0) {
+				result.append(" ");
+			}
+			result.append(source.get(i));
+		}
 
-        return result.toString();
-    }
+		return result.toString();
+	}
 }

@@ -6,34 +6,34 @@ package co.edu.unal.bog_2016699_2026_1.algorithm;
 import co.edu.unal.bog_2016699_2026_1.structures.LinkedList;
 
 class SplitUtils {
-    public static LinkedList split(String source) {
-        int lastFind = 0;
-        int currentFind = 0;
-        LinkedList result = new LinkedList();
+	public static LinkedList split(String source) {
+		int lastFind = 0;
+		int currentFind = 0;
+		LinkedList result = new LinkedList();
 
-        while ((currentFind = source.indexOf(" ", lastFind)) != -1) {
-            String token = source.substring(lastFind);
-            if (currentFind != -1) {
-                token = token.substring(0, currentFind - lastFind);
-            }
+		while ((currentFind = source.indexOf(" ", lastFind)) != -1) {
+			String token = source.substring(lastFind);
+			if (currentFind != -1) {
+				token = token.substring(0, currentFind - lastFind);
+			}
 
-            addIfValid(token, result);
-            lastFind = currentFind + 1;
-        }
+			addIfValid(token, result);
+			lastFind = currentFind + 1;
+		}
 
-        String token = source.substring(lastFind);
-        addIfValid(token, result);
+		String token = source.substring(lastFind);
+		addIfValid(token, result);
 
-        return result;
-    }
+		return result;
+	}
 
-    private static void addIfValid(String token, LinkedList list) {
-        if (isTokenValid(token)) {
-            list.add(token);
-        }
-    }
+	private static void addIfValid(String token, LinkedList list) {
+		if (isTokenValid(token)) {
+			list.add(token);
+		}
+	}
 
-    private static boolean isTokenValid(String token) {
-        return !token.isEmpty();
-    }
+	private static boolean isTokenValid(String token) {
+		return !token.isEmpty();
+	}
 }

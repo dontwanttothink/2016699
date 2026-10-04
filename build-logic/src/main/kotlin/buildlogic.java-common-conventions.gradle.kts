@@ -7,6 +7,9 @@
 plugins {
     // Apply the java Plugin to add support for Java.
     java
+
+    // Apply Spotless for consistent code formatting across all Java modules.
+    id("com.diffplug.spotless")
 }
 
 repositories {
@@ -35,5 +38,18 @@ testing {
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+spotless {
+    java {
+        googleJavaFormat()
+        leadingSpacesToTabs(2)
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    kotlinGradle {
+        ktlint()
     }
 }

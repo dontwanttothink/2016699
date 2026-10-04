@@ -3,12 +3,13 @@
  */
 package co.edu.unal.bog_2016699_2026_1.app;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.Test;
+
 class MessageUtilsTest {
-    @Test void testGetMessage() {
-        assertEquals("Hello      World!", MessageUtils.getMessage());
-    }
+	@Test
+	void testGetMessage() {
+		assertEquals("Hello      World!", MessageUtils.getMessage());
+	}
 }

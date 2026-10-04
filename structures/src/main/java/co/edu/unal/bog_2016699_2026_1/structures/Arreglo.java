@@ -1,11 +1,7 @@
 package co.edu.unal.bog_2016699_2026_1.structures;
 
 class Arreglo {
-    void calcularSemestres() {
+	void calcularSemestres() {}
 
-    }
-
-    void accederAMateria(long id) {
-
-    }
+	void accederAMateria(long id) {}
 }
