@@ -42,7 +42,7 @@ a fin de compararlas.
 - Integrante 2: Juliana Rodríguez Pizano
 - Integrante 3: Johann Gabriel Manrique Ortiz
 - Integrante 4: Belcar Santiago Cuentas Zavala Infante
-- Integrante 5: \(Nombre\)
+- Integrante 5: Javier Pérez Borda
 
 ## Lenguaje de programación
 
