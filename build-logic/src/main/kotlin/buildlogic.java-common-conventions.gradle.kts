@@ -7,8 +7,6 @@
 plugins {
     // Apply the java Plugin to add support for Java.
     java
-
-    // Apply Spotless for consistent code formatting across all Java modules.
     id("com.diffplug.spotless")
 }
 
@@ -17,12 +15,7 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    constraints {
-        // Define dependency versions as constraints
-        implementation("org.apache.commons:commons-text:1.14.0")
-    }
-}
+dependencies {}
 
 testing {
     suites {
@@ -34,7 +27,6 @@ testing {
     }
 }
 
-// Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(25)
@@ -43,8 +35,6 @@ java {
 
 spotless {
     java {
-        // Use the Eclipse JDT formatter so build, VS Code (JDT LS) and Eclipse IDE
-        // all share the same formatting rules from eclipse-formatter.xml.
         eclipse()
             .configFile(rootProject.file("eclipse-formatter.xml"))
         removeUnusedImports()

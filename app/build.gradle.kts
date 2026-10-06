@@ -9,11 +9,10 @@ plugins {
 }
 
 dependencies {
-    implementation("org.apache.commons:commons-text")
     implementation(project(":algorithm"))
 }
 
 application {
     // Define the main class for the application.
-    mainClass = "co.edu.unal.bog_2016699_2026_1.app.App"
+    mainClass = "co.edu.unal.bog2016699s2026m1.app.App"
 }
