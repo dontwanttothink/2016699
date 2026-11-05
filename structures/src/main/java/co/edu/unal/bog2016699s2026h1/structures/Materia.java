@@ -14,4 +14,23 @@ public class Materia {
 		this.dependientes = new ArrayList<>();
 		this.prerrequisitos = new ArrayList<>();
 	}
+
+	public void insertarDependiente(Materia materia){
+		this.dependientes.add(materia);
+		materia.prerrequisitos.add(this);
+	}
+
+	public Materia eliminar(){
+		
+		for ( Materia padre: this.prerrequisitos){
+			for ( Materia dependiente: this.dependientes){
+				padre.dependientes.add(dependiente);
+				dependiente.prerrequisitos.add(padre);
+				dependiente.prerrequisitos.remove(this);
+			}
+			padre.dependientes.remove(this);
+		}
+	}
+
+
 }
