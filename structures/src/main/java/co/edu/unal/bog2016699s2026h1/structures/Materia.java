@@ -1,13 +1,15 @@
 package co.edu.unal.bog2016699s2026h1.structures;
 
-public class Materia {
-	private int id;
-	private String nombre;
-	private int creditos;
-	private ArrayList<Materia> dependientes;
-	private ArrayList<Materia> prerrequisitos;
+import java.util.ArrayList;
 
-	public Materia(int id, String nombre, int créditos) {
+public class Materia {
+	int id;
+	String nombre;
+	int creditos;
+	ArrayList<Materia> dependientes;
+	ArrayList<Materia> prerrequisitos;
+
+	public Materia(int id, String nombre, int creditos) {
 		this.id = id;
 		this.nombre = nombre;
 		this.creditos = creditos;
@@ -15,22 +17,8 @@ public class Materia {
 		this.prerrequisitos = new ArrayList<>();
 	}
 
-	public void insertarDependiente(Materia materia){
+	public void insertarDependiente(Materia materia) {
 		this.dependientes.add(materia);
 		materia.prerrequisitos.add(this);
 	}
-
-	public Materia eliminar(){
-		
-		for ( Materia padre: this.prerrequisitos){
-			for ( Materia dependiente: this.dependientes){
-				padre.dependientes.add(dependiente);
-				dependiente.prerrequisitos.add(padre);
-				dependiente.prerrequisitos.remove(this);
-			}
-			padre.dependientes.remove(this);
-		}
-	}
-
-
 }
