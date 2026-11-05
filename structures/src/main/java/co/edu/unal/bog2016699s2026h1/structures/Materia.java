@@ -4,6 +4,7 @@ public class Materia {
 	private int id;
 	private String nombre;
 	private int créditos;
+	private Materia hijo;
 
 	public Materia(int id, String nombre, int créditos) {
 		this.id = id;
