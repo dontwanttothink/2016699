@@ -3,11 +3,12 @@ package co.edu.unal.bog2016699s2026h1.structures;
 import java.util.RandomAccess;
 import java.util.AbstractList;
 
+import static java.util.Objects.checkFromToIndex;
 import static java.util.Objects.checkIndex;
 import static java.util.Arrays.copyOf;
 import static java.util.Arrays.fill;
 
-// Véase https://docs.oracle.com/javase/8/docs/api/java/util/AbstractList.html
+// Véase https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/AbstractList.html
 
 public class DynamicArray<T> extends AbstractList<T> implements RandomAccess {
 	@SuppressWarnings("unchecked")
@@ -68,6 +69,8 @@ public class DynamicArray<T> extends AbstractList<T> implements RandomAccess {
 
 	@Override
 	protected void removeRange(int from, int to) {
+		checkFromToIndex(from, to, size);
+
 		int moved = size - to;
 		if (moved > 0) {
 			System.arraycopy(buffer, to, buffer, from, moved);
