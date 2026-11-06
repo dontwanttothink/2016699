@@ -6,7 +6,7 @@ class Nodo {
 	Nodo derecha;
 }
 
-public class ArbolAVL {
+public class AVLTree {
 	private Nodo raiz;
 
 	void insertar(Materia materia) {
