@@ -1,4 +1,7 @@
-# Graduación UNAL 
+# Graduación UNAL
+
+Este repositorio implementa los algoritmos y una utilidad de terminal no interactiva.
+Véase también el [repositorio para la interfaz gráfica](https://github.com/dontwanttothink/2019699-gui).
 
 ## Descripción del proyecto
 
