@@ -22,7 +22,7 @@ testing {
         // Configure the built-in test suite
         val test = named<JvmTestSuite>("test") {
             // Use JUnit Jupiter test framework
-            useJUnitJupiter("6.0.1")
+            useJUnitJupiter("6.1.3")
         }
     }
 }
