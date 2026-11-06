@@ -5,6 +5,6 @@ package co.edu.unal.bog2016699s2026h1.structures;
 // y luego las que están bloqueadas. desempate por el número de dependientes
 // (menos dependientes van primero).
 
-public class Heap {
+public class HeapPlan {
 
 }
