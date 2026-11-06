@@ -17,4 +17,5 @@ repositories {
 dependencies {
     // Make the Spotless plugin available to precompiled convention plugins.
     implementation("com.diffplug.spotless:com.diffplug.spotless.gradle.plugin:8.10.3")
+    implementation("org.openjfx.javafxplugin:org.openjfx.javafxplugin.gradle.plugin:0.1.0")
 }
