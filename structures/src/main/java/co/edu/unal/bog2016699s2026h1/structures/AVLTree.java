@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 class Node {
-	Materia materia;
+	Course course;
 	Node left;
 	Node right;
 
@@ -25,15 +25,15 @@ class Node {
 		return -heightOf(left) + heightOf(right);
 	}
 
-	Node(Materia materia) {
-		this.materia = materia;
+	Node(Course materia) {
+		this.course = materia;
 	}
 }
 
 public class AVLTree {
 	private Node root = null;
 
-	public void put(Materia materia) {
+	public void put(Course materia) {
 		if (materia == null) {
 			throw new IllegalArgumentException("no null 🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬");
 		}
@@ -41,17 +41,17 @@ public class AVLTree {
 		root = put(materia, root);
 	}
 
-	private static Node put(Materia materia, Node root) {
+	private static Node put(Course materia, Node root) {
 		if (root == null) {
 			return new Node(materia);
 		}
 
-		if (materia.id < root.materia.id) {
+		if (materia.id < root.course.id) {
 			root.left = put(materia, root.left);
-		} else if (materia.id > root.materia.id) {
+		} else if (materia.id > root.course.id) {
 			root.right = put(materia, root.right);
 		} else {
-			root.materia = materia;
+			root.course = materia;
 		}
 
 		root.updateHeight();
@@ -75,18 +75,18 @@ public class AVLTree {
 			throw new NoSuchElementException();
 		}
 
-		if (root.materia.id == id) {
+		if (root.course.id == id) {
 			if (root.right == null) {
 				return root.left;
 			}
 
-			root.materia = leftmostIn(root.right).materia;
-			root.right = delete(root.materia.id, root.right);
+			root.course = leftmostIn(root.right).course;
+			root.right = delete(root.course.id, root.right);
 			root.updateHeight();
 			return rebalance(root);
 		}
 
-		if (id < root.materia.id) {
+		if (id < root.course.id) {
 			root.left = delete(id, root.left);
 		} else {
 			root.right = delete(id, root.right);
@@ -99,20 +99,20 @@ public class AVLTree {
 		return maybeFind(id).isPresent();
 	}
 
-	public Materia find(int id) {
+	public Course find(int id) {
 		return maybeFind(id).orElseThrow(
 				() -> new NoSuchElementException());
 	}
 
-	public Optional<Materia> maybeFind(int id) {
+	public Optional<Course> maybeFind(int id) {
 		Node current = root;
 		while (current != null) {
-			if (id < current.materia.id) {
+			if (id < current.course.id) {
 				current = current.left;
-			} else if (id > current.materia.id) {
+			} else if (id > current.course.id) {
 				current = current.right;
 			} else {
-				return Optional.of(current.materia);
+				return Optional.of(current.course);
 			}
 		}
 		return Optional.empty();

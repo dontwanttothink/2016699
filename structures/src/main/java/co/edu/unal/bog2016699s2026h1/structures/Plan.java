@@ -3,15 +3,15 @@ package co.edu.unal.bog2016699s2026h1.structures;
 import java.util.ArrayList;
 
 public class Plan {
-	ArrayList<Materia> raices = new ArrayList<>();
+	ArrayList<Course> raices = new ArrayList<>();
 
-	public void agregarRaiz(Materia materia) {
+	public void agregarRaiz(Course materia) {
 		raices.add(materia);
 	}
 
-	public void eliminar(Materia materia) {
+	public void eliminar(Course materia) {
 		if (raices.contains(materia)) {
-			for (Materia dependiente : materia.dependientes) {
+			for (Course dependiente : materia.dependientes) {
 				dependiente.prerrequisitos.remove(materia);
 				if (dependiente.prerrequisitos.size() == 0) {
 					raices.add(dependiente);
@@ -20,8 +20,8 @@ public class Plan {
 
 			raices.remove(materia);
 		} else {
-			for (Materia padre : materia.prerrequisitos) {
-				for (Materia dependiente : materia.dependientes) {
+			for (Course padre : materia.prerrequisitos) {
+				for (Course dependiente : materia.dependientes) {
 					padre.dependientes.add(dependiente);
 					dependiente.prerrequisitos.add(padre);
 

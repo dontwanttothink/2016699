@@ -2,14 +2,14 @@ package co.edu.unal.bog2016699s2026h1.structures;
 
 import java.util.ArrayList;
 
-public class Materia {
+public class Course {
 	int id;
 	String nombre;
 	int creditos;
-	ArrayList<Materia> dependientes;
-	ArrayList<Materia> prerrequisitos;
+	ArrayList<Course> dependientes;
+	ArrayList<Course> prerrequisitos;
 
-	public Materia(int id, String nombre, int creditos) {
+	public Course(int id, String nombre, int creditos) {
 		this.id = id;
 		this.nombre = nombre;
 		this.creditos = creditos;
@@ -17,7 +17,7 @@ public class Materia {
 		this.prerrequisitos = new ArrayList<>();
 	}
 
-	public void insertarDependiente(Materia materia) {
+	public void insertarDependiente(Course materia) {
 		this.dependientes.add(materia);
 		materia.prerrequisitos.add(this);
 	}
