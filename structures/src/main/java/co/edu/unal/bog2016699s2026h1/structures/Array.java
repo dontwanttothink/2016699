@@ -61,6 +61,7 @@ class Array<T> extends AbstractList<T> implements RandomAccess {
 		--size;
 		buffer[size] = null;
 
+		++modCount;
 		shrinkIfNeeded();
 		return old;
 	}
@@ -73,6 +74,7 @@ class Array<T> extends AbstractList<T> implements RandomAccess {
 		}
 		fill(buffer, size - (to - from), size, null);
 
+		++modCount;
 		size -= (to - from);
 		shrinkIfNeeded();
 	}
