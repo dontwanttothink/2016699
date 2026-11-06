@@ -1,9 +1,7 @@
 package co.edu.unal.bog2016699s2026h1.structures;
 
-import java.util.ArrayList;
-
 public class Plan {
-	ArrayList<Course> raices = new ArrayList<>();
+	DynamicArray<Course> raices = new DynamicArray<>();
 
 	public void agregarRaiz(Course materia) {
 		raices.add(materia);

@@ -9,7 +9,7 @@ import static java.util.Arrays.fill;
 
 // Véase https://docs.oracle.com/javase/8/docs/api/java/util/AbstractList.html
 
-class Array<T> extends AbstractList<T> implements RandomAccess {
+public class DynamicArray<T> extends AbstractList<T> implements RandomAccess {
 	@SuppressWarnings("unchecked")
 	private T[] buffer = (T[]) new Object[0];
 
