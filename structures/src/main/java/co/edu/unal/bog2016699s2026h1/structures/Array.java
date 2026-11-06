@@ -1,67 +1,91 @@
 package co.edu.unal.bog2016699s2026h1.structures;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.RandomAccess;
+import java.util.AbstractList;
 
-class Array<T> {
+import static java.util.Objects.checkIndex;
+import static java.util.Arrays.copyOf;
+import static java.util.Arrays.fill;
 
+// Véase https://docs.oracle.com/javase/8/docs/api/java/util/AbstractList.html
+
+class Array<T> extends AbstractList<T> implements RandomAccess {
+	@SuppressWarnings("unchecked")
+	private T[] buffer = (T[]) new Object[0];
+
+	private int size = 0;
+
+	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'size'");
+		return size;
 	}
 
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'isEmpty'");
+	@Override
+	public T get(int index) {
+		checkIndex(index, size);
+		return buffer[index];
 	}
 
-	public boolean contains(Object o) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'contains'");
+	@Override
+	public T set(int index, T value) {
+		checkIndex(index, size);
+		T old = buffer[index];
+		buffer[index] = value;
+		return old;
 	}
 
-	public Iterator iterator() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'iterator'");
+	@Override
+	public void add(int index, T value) {
+		if (index < 0 || index > size) {
+			throw new IndexOutOfBoundsException(index);
+		}
+
+		growIfNeeded();
+
+		System.arraycopy(buffer, index, buffer, index + 1, size - index);
+		buffer[index] = value;
+		++size;
+		++modCount;
 	}
 
-	public boolean add(Object e) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'add'");
+	@Override
+	public T remove(int index) {
+		checkIndex(index, size);
+		T old = buffer[index];
+
+		int moved = size - 1 - index;
+		if (moved > 0) {
+			System.arraycopy(buffer, index + 1, buffer, index, moved);
+		}
+
+		--size;
+		buffer[size] = null;
+
+		shrinkIfNeeded();
+		return old;
 	}
 
-	public boolean remove(Object o) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'remove'");
+	@Override
+	protected void removeRange(int from, int to) {
+		int moved = size - to;
+		if (moved > 0) {
+			System.arraycopy(buffer, to, buffer, from, moved);
+		}
+		fill(buffer, size - (to - from), size, null);
+
+		size -= (to - from);
+		shrinkIfNeeded();
 	}
 
-	public boolean containsAll(Collection c) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'containsAll'");
+	private void shrinkIfNeeded() {
+		if (size <= buffer.length / 4) {
+			buffer = copyOf(buffer, buffer.length / 2);
+		}
 	}
 
-	public void clear() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'clear'");
-	}
-
-	public Object get(int index) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'get'");
-	}
-
-	public Object set(int index, Object element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'set'");
-	}
-
-	public Object remove(int index) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'remove'");
-	}
-
-	public int lastIndexOf(Object o) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'lastIndexOf'");
+	private void growIfNeeded() {
+		if (size == buffer.length) {
+			buffer = copyOf(buffer, Math.max(size * 2, 1));
+		}
 	}
 }
