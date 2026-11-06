@@ -1,4 +1,4 @@
-package co.edu.unal.bog2016699s2026h1.structures;
+package co.edu.unal.bog2016699.graduation.structures;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;

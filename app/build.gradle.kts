@@ -14,5 +14,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = "co.edu.unal.bog2016699s2026m1.app.App"
+    mainClass = "co.edu.unal.bog2016699.graduation.app.App"
 }
