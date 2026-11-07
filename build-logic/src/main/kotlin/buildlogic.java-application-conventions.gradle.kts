@@ -4,10 +4,26 @@
  * This project uses @Incubating APIs which are subject to change.
  */
 
+import org.graalvm.buildtools.gradle.dsl.GraalVMExtension
+
 plugins {
     // Apply the common convention plugin for shared build configuration between library and application projects.
     id("buildlogic.java-common-conventions")
 
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+
+    // Apply the GraalVM Native Build Tools plugin to compile the application to a native executable.
+    id("org.graalvm.buildtools.native")
+}
+
+extensions.configure<GraalVMExtension> {
+    binaries {
+        named("main") {
+            javaLauncher = javaToolchains.launcherFor {
+                languageVersion = JavaLanguageVersion.of(25)
+                vendor = JvmVendorSpec.GRAAL_VM
+            }
+        }
+    }
 }

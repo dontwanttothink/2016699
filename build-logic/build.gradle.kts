@@ -17,4 +17,7 @@ repositories {
 dependencies {
     // Make the Spotless plugin available to precompiled convention plugins.
     implementation("com.diffplug.spotless:com.diffplug.spotless.gradle.plugin:8.10.3")
+
+    // Make the GraalVM Native Build Tools plugin available to precompiled convention plugins.
+    implementation("org.graalvm.buildtools.native:org.graalvm.buildtools.native.gradle.plugin:1.1.18")
 }
