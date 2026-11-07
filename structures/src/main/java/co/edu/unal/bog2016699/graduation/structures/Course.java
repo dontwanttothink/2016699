@@ -19,4 +19,12 @@ public class Course {
 		this.dependientes.add(materia);
 		materia.prerrequisitos.add(this);
 	}
+
+	public int getCreditos() {
+		return creditos;
+	}
+	
+	public int getDependientesSize() {
+		return dependientes.size();
+	}
 }

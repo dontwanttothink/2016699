@@ -3,6 +3,10 @@ package co.edu.unal.bog2016699.graduation.structures;
 public class Plan {
 	DynamicArray<Course> raices = new DynamicArray<>();
 
+	public DynamicArray<Course> getRaices() {
+		return raices;
+	}
+
 	public void agregarRaiz(Course materia) {
 		raices.add(materia);
 	}
