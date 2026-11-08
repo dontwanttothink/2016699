@@ -1,10 +1,76 @@
 package co.edu.unal.bog2016699.graduation.structures;
 
 // orden en el que van primero las materias disponibles
+
 // (es decir, que se pueden cursar),
 // y luego las que están bloqueadas. desempate por el número de dependientes
-// (menos dependientes van primero).
+// (menos dependientes van primero). **mas dependientes va primero no?
 
 public class HeapPlan {
 
+	private DynamicArray<Course> heap;
+	private int size;
+
+	public HeapPlan() {
+
+		heap = new DynamicArray<>();
+		size = 0;
+	}
+
+	private int parent(int i) {
+		return (i - 1) / 2;
+	}
+
+	private int leftChild(int i) {
+		return 2 * i + 1;
+	}
+
+	private int rightChild(int i) {
+		return 2 * i + 2;
+	}
+
+	private void swap(int i, int j) {
+
+		Course temp = heap.get(i);
+		heap.set(i, heap.get(j));
+		heap.set(j, temp);
+	}
+
+	private void siftUp(int i) {
+
+		if (i == 0 || heap.get(i).comparePriority(heap.get(parent(i))) < 0)
+			return;
+		swap(i, parent(i));
+		siftUp(parent(i));
+
+	}
+
+	private void siftDown(int i) {
+		int max = i;
+
+		if (rightChild(i) < heap.size() && heap.get(rightChild(i)).comparePriority(heap.get(i)) > 0)
+			max = rightChild(i);
+		if (leftChild(i) < heap.size() && heap.get(leftChild(i)).comparePriority(heap.get(max)) > 0)
+			max = leftChild(i);
+		if (max != i) {
+			swap(i, max);
+			siftDown(max);
+		}
+	}
+
+	public void put(Course materia) {
+
+		heap.add(heap.size(), materia);
+		siftUp(size);
+		size++;
+	}
+
+	public Course extractMax() {
+		Course max = heap.get(0);
+		swap(0, size - 1);
+		size--;
+		if (size > 0)
+			siftDown(0);
+		return max;
+	}
 }

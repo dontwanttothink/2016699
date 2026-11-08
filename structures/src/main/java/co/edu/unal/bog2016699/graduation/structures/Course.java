@@ -27,4 +27,23 @@ public class Course {
 	public int getDependientesSize() {
 		return dependientes.size();
 	}
+
+	// Los agregue pero no se si sean necesarios, los crei necesarios para el heap
+	public boolean isAvailable() {
+		if (prerrequisitos.size() == 0)
+			return true;
+		return false;
+	}
+
+	public int comparePriority(Course materia) {
+		if (this.isAvailable() && materia.isAvailable())
+			return dependientes.size() - materia.dependientes.size();
+
+		else if (this.isAvailable())
+			return 1;
+		else if (!this.isAvailable() && !materia.isAvailable())
+			return 0;
+
+		return -1;
+	}
 }
