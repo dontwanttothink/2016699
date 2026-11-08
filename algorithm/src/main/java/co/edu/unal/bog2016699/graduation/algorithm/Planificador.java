@@ -8,12 +8,13 @@ import co.edu.unal.bog2016699.graduation.structures.Course;
 public class Planificador {
 	public static int creditosMax;
 
-	public static void setCreditosMax(int creditos){
+	public static void setCreditosMax(int creditos) {
 		creditosMax = creditos;
 	}
 
 	public static DynamicArray<DynamicArray<Course>> planificar(Plan plan) {
-		DynamicArray<DynamicArray<Course>> semestres = new DynamicArray<>();;
+		DynamicArray<DynamicArray<Course>> semestres = new DynamicArray<>();
+		;
 		while (plan.getRaices().size() > 0) {
 			DynamicArray<Course> semestreActual = new DynamicArray<>();
 			int creditosUsados = 0;
@@ -23,7 +24,8 @@ public class Planificador {
 				Course mejorMateria = null;
 				for (Course materia : materiasCandidatas) {
 					if (creditosUsados + materia.getCreditos() <= creditosMax) {
-						if (mejorMateria == null || materia.getDependientesSize() > mejorMateria.getDependientesSize()) {
+						if (mejorMateria == null
+								|| materia.getDependientesSize() > mejorMateria.getDependientesSize()) {
 							mejorMateria = materia;
 						}
 					}
@@ -49,7 +51,7 @@ public class Planificador {
 
 	private static DynamicArray<Course> clonarArreglo(DynamicArray<Course> arreglo) {
 		DynamicArray<Course> copia = new DynamicArray<>();
-		for(int i = 0; i < arreglo.size(); i++){
+		for (int i = 0; i < arreglo.size(); i++) {
 			copia.add(arreglo.get(i));
 		}
 		return copia;

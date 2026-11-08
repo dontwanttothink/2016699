@@ -23,7 +23,7 @@ public class Course {
 	public int getCreditos() {
 		return creditos;
 	}
-	
+
 	public int getDependientesSize() {
 		return dependientes.size();
 	}
