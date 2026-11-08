@@ -1,11 +1,50 @@
 package co.edu.unal.bog2016699.graduation.structures;
 
+import java.util.Arrays;
+
 public class Course {
 	int id;
-	String nombre;
 	int credits;
+	String nombre;
 	DynamicArray<Course> dependents;
 	DynamicArray<Course> prerequisites;
+
+	// id$créditos$nombre$id,id,id,id(dependientes)$id,id,id,id(prerrequisitos)
+	public static Course[] from(String serialized) {
+		String[][] rows = serialized.lines()
+				.filter(line -> !line.isBlank())
+				.map(line -> line.split("\\$", -1))
+				.toArray(String[][]::new);
+
+		Course[] courses = new Course[rows.length];
+		AVLTree byId = new AVLTree();
+		for (int i = 0; i < rows.length; i++) {
+			courses[i] = new Course(Integer.parseInt(rows[i][0]), rows[i][2], Integer.parseInt(rows[i][1]));
+			byId.put(courses[i]);
+		}
+
+		for (int i = 0; i < rows.length; i++) {
+			Course course = courses[i];
+			for (int id : parseIds(rows[i][3])) {
+				Course dependent = byId.find(id);
+				if (!course.dependents.contains(dependent)) {
+					course.addDependent(dependent);
+				}
+			}
+			for (int id : parseIds(rows[i][4])) {
+				Course prerequisite = byId.find(id);
+				if (!course.prerequisites.contains(prerequisite)) {
+					prerequisite.addDependent(course);
+				}
+			}
+		}
+
+		return courses;
+	}
+
+	private static int[] parseIds(String ids) {
+		return ids.isEmpty() ? new int[0] : Arrays.stream(ids.split(",")).mapToInt(Integer::parseInt).toArray();
+	}
 
 	public Course(int id, String nombre, int creditos) {
 		this.id = id;
@@ -18,6 +57,10 @@ public class Course {
 	public void addDependent(Course materia) {
 		this.dependents.add(materia);
 		materia.prerequisites.add(this);
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public int getCredits() {

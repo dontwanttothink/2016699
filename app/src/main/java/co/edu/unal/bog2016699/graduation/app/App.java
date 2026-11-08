@@ -3,7 +3,16 @@
  */
 package co.edu.unal.bog2016699.graduation.app;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import co.edu.unal.bog2016699.graduation.algorithm.Planner;
+import co.edu.unal.bog2016699.graduation.structures.Course;
+import co.edu.unal.bog2016699.graduation.structures.DynamicArray;
+import co.edu.unal.bog2016699.graduation.structures.ListPlan;
 
 public class App {
 	private static String USAGE = """
@@ -20,7 +29,7 @@ public class App {
 			such as --algorithm=0, is not supported.
 			""";
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		if (args.length == 1 && args[0].equals("--help")) {
 			usage();
 			return;
@@ -30,10 +39,12 @@ public class App {
 
 		if (algorithmIdx < args.length && args.length == 3) {
 			int inputFileIdx = algorithmIdx == 1 ? 2 : 0;
-			// TODO
+			String input = args[inputFileIdx].equals("-")
+					? new String(System.in.readAllBytes())
+					: Files.readString(Path.of(args[inputFileIdx]));
 
 			if (args[algorithmIdx].equals("0")) {
-				listPlanner();
+				listPlanner(input);
 				return;
 			}
 
@@ -47,7 +58,26 @@ public class App {
 		System.exit(1);
 	}
 
-	static void listPlanner() {
+	static void printSemesters(DynamicArray<DynamicArray<Course>> semesters) {
+		System.out.println(semesters.stream()
+				.map(semester -> semester.stream()
+						.map(course -> String.valueOf(course.getId()))
+						.collect(Collectors.joining(", ", "[", "]")))
+				.collect(Collectors.joining(", ", "[", "]")));
+	}
+
+	static void listPlanner(String input) {
+		Course[] courses = Course.from(input);
+
+		ListPlan plan = new ListPlan();
+		for (Course course : courses) {
+			if (course.isAvailable()) {
+				plan.agregarRaiz(course);
+			}
+		}
+
+		DynamicArray<DynamicArray<Course>> semesters = Planner.planificar(plan);
+		printSemesters(semesters);
 	}
 
 	static void heapPlanner() {

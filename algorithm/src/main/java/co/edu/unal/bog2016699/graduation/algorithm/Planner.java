@@ -2,17 +2,17 @@ package co.edu.unal.bog2016699.graduation.algorithm;
 
 import co.edu.unal.bog2016699.graduation.structures.DynamicArray;
 import co.edu.unal.bog2016699.graduation.structures.HeapPlan;
-import co.edu.unal.bog2016699.graduation.structures.Plan;
+import co.edu.unal.bog2016699.graduation.structures.ListPlan;
 import co.edu.unal.bog2016699.graduation.structures.Course;
 
 public class Planner {
-	public static int creditosMax;
+	public static int maxCredits = 20;
 
-	public static void setCreditosMax(int creditos) {
-		creditosMax = creditos;
+	public static void setMaxCredits(int creditos) {
+		maxCredits = creditos;
 	}
 
-	public static DynamicArray<DynamicArray<Course>> planificar(Plan plan) {
+	public static DynamicArray<DynamicArray<Course>> planificar(ListPlan plan) {
 		DynamicArray<DynamicArray<Course>> semestres = new DynamicArray<>();
 		while (plan.getRoots().size() > 0) {
 			DynamicArray<Course> semestreActual = new DynamicArray<>();
@@ -22,7 +22,7 @@ public class Planner {
 			while (materiasCandidatas.size() > 0) {
 				Course mejorMateria = null;
 				for (Course materia : materiasCandidatas) {
-					if (creditosUsados + materia.getCredits() <= creditosMax) {
+					if (creditosUsados + materia.getCredits() <= maxCredits) {
 						if (mejorMateria == null
 								|| materia.getDependentsCount() > mejorMateria.getDependentsCount()) {
 							mejorMateria = materia;

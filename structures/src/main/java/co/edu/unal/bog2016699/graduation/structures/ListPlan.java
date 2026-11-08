@@ -2,7 +2,7 @@ package co.edu.unal.bog2016699.graduation.structures;
 
 import java.util.List;
 
-public class Plan {
+public class ListPlan {
 	DynamicArray<Course> roots = new DynamicArray<>();
 
 	public List<Course> getRoots() {
