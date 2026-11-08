@@ -69,9 +69,9 @@ public class Planner {
 			}
 
 			for (Course materia : semestreActual) {
-				for(Course dependiente: materia.getDependents()) {
+				for (Course dependiente : materia.getDependents()) {
 					dependiente.getPrerequisites().remove(materia);
-					if(dependiente.isAvailable()){
+					if (dependiente.isAvailable()) {
 						plan.put(dependiente);
 					}
 				}
