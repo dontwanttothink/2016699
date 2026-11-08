@@ -49,6 +49,36 @@ public class Planner {
 	}
 
 	public static DynamicArray<DynamicArray<Course>> planificar(HeapPlan plan) {
-		throw new UnsupportedOperationException("sin implementar");
+		DynamicArray<DynamicArray<Course>> semestres = new DynamicArray<>();
+		while (plan.size() > 0) {
+			DynamicArray<Course> semestreActual = new DynamicArray<>();
+			int creditosUsados = 0;
+
+			while (true) {
+				if (plan.size() == 0)
+					break;
+
+				Course materia = plan.extractMax();
+				if (creditosUsados + materia.getCredits() > maxCredits) {
+					plan.put(materia);
+					break;
+				}
+
+				semestreActual.add(materia);
+				creditosUsados += materia.getCredits();
+			}
+
+			for (Course materia : semestreActual) {
+				for(Course dependiente: materia.getDependents()) {
+					dependiente.getPrerequisites().remove(materia);
+					if(dependiente.isAvailable()){
+						plan.put(dependiente);
+					}
+				}
+			}
+
+			semestres.add(semestreActual);
+		}
+		return semestres;
 	}
 }

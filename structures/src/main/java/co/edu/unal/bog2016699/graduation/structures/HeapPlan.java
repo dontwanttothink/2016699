@@ -68,9 +68,14 @@ public class HeapPlan {
 	public Course extractMax() {
 		Course max = heap.get(0);
 		swap(0, size - 1);
+		heap.remove(size - 1);
 		size--;
 		if (size > 0)
 			siftDown(0);
 		return max;
+	}
+
+	public int size() {
+		return size;
 	}
 }

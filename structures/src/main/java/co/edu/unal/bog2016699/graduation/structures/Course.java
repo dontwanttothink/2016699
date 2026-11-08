@@ -67,6 +67,14 @@ public class Course {
 		return credits;
 	}
 
+	public DynamicArray<Course> getDependents() {
+		return dependents;
+	}
+
+	public DynamicArray<Course> getPrerequisites() {
+		return prerequisites;
+	}
+
 	public int getDependentsCount() {
 		return dependents.size();
 	}
