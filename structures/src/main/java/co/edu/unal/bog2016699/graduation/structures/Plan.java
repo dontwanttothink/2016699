@@ -15,27 +15,27 @@ public class Plan {
 
 	public void eliminar(Course materia) {
 		if (roots.contains(materia)) {
-			for (Course dependiente : materia.dependientes) {
-				dependiente.prerrequisitos.remove(materia);
-				if (dependiente.prerrequisitos.size() == 0) {
+			for (Course dependiente : materia.dependents) {
+				dependiente.prerequisites.remove(materia);
+				if (dependiente.prerequisites.size() == 0) {
 					roots.add(dependiente);
 				}
 			}
 
 			roots.remove(materia);
 		} else {
-			for (Course padre : materia.prerrequisitos) {
-				for (Course dependiente : materia.dependientes) {
-					padre.dependientes.add(dependiente);
-					dependiente.prerrequisitos.add(padre);
+			for (Course padre : materia.prerequisites) {
+				for (Course dependiente : materia.dependents) {
+					padre.dependents.add(dependiente);
+					dependiente.prerequisites.add(padre);
 
-					dependiente.prerrequisitos.remove(materia);
+					dependiente.prerequisites.remove(materia);
 
-					if (dependiente.prerrequisitos.size() == 0) {
+					if (dependiente.prerequisites.size() == 0) {
 						roots.add(dependiente);
 					}
 				}
-				padre.dependientes.remove(materia);
+				padre.dependents.remove(materia);
 			}
 		}
 	}

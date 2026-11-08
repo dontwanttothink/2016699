@@ -22,9 +22,9 @@ public class Planificador {
 			while (materiasCandidatas.size() > 0) {
 				Course mejorMateria = null;
 				for (Course materia : materiasCandidatas) {
-					if (creditosUsados + materia.getCreditos() <= creditosMax) {
+					if (creditosUsados + materia.getCredits() <= creditosMax) {
 						if (mejorMateria == null
-								|| materia.getDependientesSize() > mejorMateria.getDependientesSize()) {
+								|| materia.getDependentsCount() > mejorMateria.getDependentsCount()) {
 							mejorMateria = materia;
 						}
 					}
@@ -34,7 +34,7 @@ public class Planificador {
 					break;
 				else {
 					semestreActual.add(mejorMateria);
-					creditosUsados += mejorMateria.getCreditos();
+					creditosUsados += mejorMateria.getCredits();
 
 					materiasCandidatas.remove(mejorMateria);
 				}
