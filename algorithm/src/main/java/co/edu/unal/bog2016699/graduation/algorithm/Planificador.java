@@ -14,7 +14,6 @@ public class Planificador {
 
 	public static DynamicArray<DynamicArray<Course>> planificar(Plan plan) {
 		DynamicArray<DynamicArray<Course>> semestres = new DynamicArray<>();
-		;
 		while (plan.getRaices().size() > 0) {
 			DynamicArray<Course> semestreActual = new DynamicArray<>();
 			int creditosUsados = 0;
