@@ -15,7 +15,7 @@ public class Course {
 		this.prerequisites = new DynamicArray<>();
 	}
 
-	public void insertarDependiente(Course materia) {
+	public void addDependent(Course materia) {
 		this.dependents.add(materia);
 		materia.prerequisites.add(this);
 	}

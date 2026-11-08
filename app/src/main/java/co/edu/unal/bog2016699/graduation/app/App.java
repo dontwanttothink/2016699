@@ -3,8 +3,57 @@
  */
 package co.edu.unal.bog2016699.graduation.app;
 
+import java.util.Arrays;
+
 public class App {
+	private static String USAGE = """
+			Usage: planner --algorithm <id> <file>
+
+			Arguments:
+				file    Input file, or - to read from standard input.
+
+			Options:
+				--algorithm <id>    Set to 0 for the list-based planner.
+				                        Set to 1 for the heap-based planner.
+
+			Using an equals symbol between the --algorithm flag and its argument,
+			such as --algorithm=0, is not supported.
+			""";
+
 	public static void main(String[] args) {
-		System.out.println("hola mundito");
+		if (args.length == 1 && args[0].equals("--help")) {
+			usage();
+			return;
+		}
+
+		int algorithmIdx = Arrays.asList(args).indexOf("--algorithm") + 1;
+
+		if (algorithmIdx < args.length && args.length == 3) {
+			int inputFileIdx = algorithmIdx == 1 ? 2 : 0;
+			// TODO
+
+			if (args[algorithmIdx].equals("0")) {
+				listPlanner();
+				return;
+			}
+
+			if (args[algorithmIdx].equals("1")) {
+				heapPlanner();
+				return;
+			}
+		}
+
+		usage();
+		System.exit(1);
+	}
+
+	static void listPlanner() {
+	}
+
+	static void heapPlanner() {
+	};
+
+	private static void usage() {
+		IO.println(USAGE);
 	}
 }

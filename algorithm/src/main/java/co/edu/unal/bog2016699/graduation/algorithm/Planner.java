@@ -5,7 +5,7 @@ import co.edu.unal.bog2016699.graduation.structures.HeapPlan;
 import co.edu.unal.bog2016699.graduation.structures.Plan;
 import co.edu.unal.bog2016699.graduation.structures.Course;
 
-public class Planificador {
+public class Planner {
 	public static int creditosMax;
 
 	public static void setCreditosMax(int creditos) {
