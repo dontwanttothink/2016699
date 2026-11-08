@@ -2,6 +2,8 @@ package co.edu.unal.bog2016699.graduation.structures;
 
 import java.util.RandomAccess;
 import java.util.AbstractList;
+import java.util.Collection;
+import java.util.Objects;
 
 import static java.util.Objects.checkFromToIndex;
 import static java.util.Objects.checkIndex;
@@ -15,6 +17,15 @@ public class DynamicArray<T> extends AbstractList<T> implements RandomAccess {
 	private T[] buffer = (T[]) new Object[0];
 
 	private int size = 0;
+
+	public DynamicArray() {
+		super();
+	}
+
+	public DynamicArray(Collection<T> c) {
+		Objects.requireNonNull(c, "c");
+		this.addAll(c);
+	}
 
 	@Override
 	public int size() {

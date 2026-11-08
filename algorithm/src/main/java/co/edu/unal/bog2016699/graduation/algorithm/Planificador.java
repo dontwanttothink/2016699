@@ -14,11 +14,11 @@ public class Planificador {
 
 	public static DynamicArray<DynamicArray<Course>> planificar(Plan plan) {
 		DynamicArray<DynamicArray<Course>> semestres = new DynamicArray<>();
-		while (plan.getRaices().size() > 0) {
+		while (plan.getRoots().size() > 0) {
 			DynamicArray<Course> semestreActual = new DynamicArray<>();
 			int creditosUsados = 0;
 
-			DynamicArray<Course> materiasCandidatas = clonarArreglo(plan.getRaices());
+			DynamicArray<Course> materiasCandidatas = new DynamicArray<Course>(plan.getRoots());
 			while (materiasCandidatas.size() > 0) {
 				Course mejorMateria = null;
 				for (Course materia : materiasCandidatas) {
@@ -46,14 +46,6 @@ public class Planificador {
 			semestres.add(semestreActual);
 		}
 		return semestres;
-	}
-
-	private static DynamicArray<Course> clonarArreglo(DynamicArray<Course> arreglo) {
-		DynamicArray<Course> copia = new DynamicArray<>();
-		for (int i = 0; i < arreglo.size(); i++) {
-			copia.add(arreglo.get(i));
-		}
-		return copia;
 	}
 
 	public static DynamicArray<DynamicArray<Course>> planificar(HeapPlan plan) {

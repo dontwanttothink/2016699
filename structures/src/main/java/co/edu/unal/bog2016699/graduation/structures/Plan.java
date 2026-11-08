@@ -1,26 +1,28 @@
 package co.edu.unal.bog2016699.graduation.structures;
 
-public class Plan {
-	DynamicArray<Course> raices = new DynamicArray<>();
+import java.util.List;
 
-	public DynamicArray<Course> getRaices() {
-		return raices;
+public class Plan {
+	DynamicArray<Course> roots = new DynamicArray<>();
+
+	public List<Course> getRoots() {
+		return List.copyOf(roots);
 	}
 
 	public void agregarRaiz(Course materia) {
-		raices.add(materia);
+		roots.add(materia);
 	}
 
 	public void eliminar(Course materia) {
-		if (raices.contains(materia)) {
+		if (roots.contains(materia)) {
 			for (Course dependiente : materia.dependientes) {
 				dependiente.prerrequisitos.remove(materia);
 				if (dependiente.prerrequisitos.size() == 0) {
-					raices.add(dependiente);
+					roots.add(dependiente);
 				}
 			}
 
-			raices.remove(materia);
+			roots.remove(materia);
 		} else {
 			for (Course padre : materia.prerrequisitos) {
 				for (Course dependiente : materia.dependientes) {
@@ -30,7 +32,7 @@ public class Plan {
 					dependiente.prerrequisitos.remove(materia);
 
 					if (dependiente.prerrequisitos.size() == 0) {
-						raices.add(dependiente);
+						roots.add(dependiente);
 					}
 				}
 				padre.dependientes.remove(materia);
