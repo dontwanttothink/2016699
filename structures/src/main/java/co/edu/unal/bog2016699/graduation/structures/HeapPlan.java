@@ -48,10 +48,11 @@ public class HeapPlan {
 	private void siftDown(int i) {
 		int max = i;
 
-		if (rightChild(i) < heap.size() && heap.get(rightChild(i)).comparePriority(heap.get(i)) > 0)
-			max = rightChild(i);
-		if (leftChild(i) < heap.size() && heap.get(leftChild(i)).comparePriority(heap.get(max)) > 0)
+		if (leftChild(i) < heap.size() && heap.get(leftChild(i)).comparePriority(heap.get(i)) > 0)
 			max = leftChild(i);
+		if (rightChild(i) < heap.size() && heap.get(rightChild(i)).comparePriority(heap.get(max)) > 0)
+			max = rightChild(i);
+
 		if (max != i) {
 			swap(i, max);
 			siftDown(max);
@@ -65,8 +66,19 @@ public class HeapPlan {
 		size++;
 	}
 
+	/*
+	 * private Course extractMax_priv() {
+	 * Course max = heap.get(0);
+	 * swap(0, size - 1);
+	 * heap.remove(size - 1);
+	 * size--;
+	 * if (size > 0)
+	 * siftDown(0);
+	 * return max;
+	 * }
+	 */
 	public Course extractMax() {
-		Course max = heap.get(0);
+		Course max = heap.get(0); // quitarse del prerrequisito de los dependintes
 		swap(0, size - 1);
 		heap.remove(size - 1);
 		size--;
@@ -75,6 +87,12 @@ public class HeapPlan {
 		return max;
 	}
 
+	/*
+	 * public Course extractMaxCredits(int creditos) {
+	 * DynamicArray<Course> temp = ;
+	 * return ;
+	 * }
+	 */
 	public int size() {
 		return size;
 	}
