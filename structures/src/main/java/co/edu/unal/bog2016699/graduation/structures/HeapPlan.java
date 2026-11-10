@@ -76,30 +76,50 @@ public class HeapPlan {
 		return max;
 	}
 
-	public Course extractMax() { // quitarse del prerrequisito de los dependintes
-		Course max = extractMax_priv();
-		for (int i = 0; i < max.dependents.size(); i++) {
-			max.dependents.get(i).prerequisites.remove(0);
-			for (int j = 0; j < max.dependents.get(i).prerequisites.size(); j++) {
-				if (max == max.dependents.get(i).prerequisites.get(j)) {
-					max.dependents.get(i).prerequisites.remove(j);
-				}
-			}
-		}
-		return max;
-	}
+	/*
+	 * public Course extractMax() { // quitarse del prerrequisito de los dependintes
+	 * Course max = extractMax_priv();
+	 * for (int i = 0; i < max.dependents.size(); i++) {
+	 * max.dependents.get(i).prerequisites.remove(0);
+	 * for (int j = 0; j < max.dependents.get(i).prerequisites.size(); j++) {
+	 * if (max == max.dependents.get(i).prerequisites.get(j)) {
+	 * max.dependents.get(i).prerequisites.remove(j);
+	 * }
+	 * }
+	 * }
+	 * return max; //metodo sin el remove(val) de arraylist
+	 * }
+	 */
 
 	public Course extractMax() { // quitarse del prerrequisito de los dependintes
 		Course max = extractMax_priv();
 		for (int i = 0; i < max.dependents.size(); i++) {
 			max.dependents.get(i).prerequisites.remove(max);
+			siftUp(i + 1); // no correcto creo habra que actualizar todo el arbol
 		}
 		return max;
 	}
 
 	public Course extractMaxCredits(int creditos) {
-		DynamicArray<Course> temp = ;
-		return ;
+		DynamicArray<Course> temp = new DynamicArray<>();
+
+		Course removed = heap.get(0);
+		Course max = heap.get(0);
+		Course maxOut = null;
+
+		while (size > 0 && max.credits > creditos) {
+			removed = extractMax_priv();
+			max = heap.get(0);
+			temp.add(removed);
+		}
+		if (max.isAvailable()) {
+			max = extractMax();
+			maxOut = max;
+		}
+		for (int i = 0; i < temp.size(); i++) {
+			put(temp.get(i));
+		}
+		return maxOut;
 	}
 
 	public int size() {
