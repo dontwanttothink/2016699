@@ -104,4 +104,31 @@ public class DynamicArray<T> extends AbstractList<T> implements RandomAccess {
 			buffer = copyOf(buffer, Math.max(size * 2, 1));
 		}
 	}
+
+	@Override
+	public int indexOf(Object value) {
+		if (value == null) {
+			for (int i = 0; i < size; i++) {
+				if (buffer[i] == null)
+					return i;
+			}
+		} else {
+			for (int i = 0; i < size; i++) {
+				if (value.equals(buffer[i]))
+					return i;
+			}
+		}
+		return -1;
+	}
+
+	@Override
+	public boolean remove(Object value) {
+		int index = indexOf(value);
+		if (index >= 0) {
+			remove(index);
+			return true;
+		}
+		return false;
+	}
+
 }

@@ -66,19 +66,8 @@ public class HeapPlan {
 		size++;
 	}
 
-	/*
-	 * private Course extractMax_priv() {
-	 * Course max = heap.get(0);
-	 * swap(0, size - 1);
-	 * heap.remove(size - 1);
-	 * size--;
-	 * if (size > 0)
-	 * siftDown(0);
-	 * return max;
-	 * }
-	 */
-	public Course extractMax() {
-		Course max = heap.get(0); // quitarse del prerrequisito de los dependintes
+	private Course extractMax_priv() {
+		Course max = heap.get(0);
 		swap(0, size - 1);
 		heap.remove(size - 1);
 		size--;
@@ -87,12 +76,32 @@ public class HeapPlan {
 		return max;
 	}
 
-	/*
-	 * public Course extractMaxCredits(int creditos) {
-	 * DynamicArray<Course> temp = ;
-	 * return ;
-	 * }
-	 */
+	public Course extractMax() { // quitarse del prerrequisito de los dependintes
+		Course max = extractMax_priv();
+		for (int i = 0; i < max.dependents.size(); i++) {
+			max.dependents.get(i).prerequisites.remove(0);
+			for (int j = 0; j < max.dependents.get(i).prerequisites.size(); j++) {
+				if (max == max.dependents.get(i).prerequisites.get(j)) {
+					max.dependents.get(i).prerequisites.remove(j);
+				}
+			}
+		}
+		return max;
+	}
+
+	public Course extractMax() { // quitarse del prerrequisito de los dependintes
+		Course max = extractMax_priv();
+		for (int i = 0; i < max.dependents.size(); i++) {
+			max.dependents.get(i).prerequisites.remove(max);
+		}
+		return max;
+	}
+
+	public Course extractMaxCredits(int creditos) {
+		DynamicArray<Course> temp = ;
+		return ;
+	}
+
 	public int size() {
 		return size;
 	}
