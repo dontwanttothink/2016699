@@ -16,7 +16,7 @@ import co.edu.unal.bog2016699.graduation.structures.ListPlan;
 
 public class PlannerTiempos {
 	public static void main(String[] args) throws IOException {
-		final int start = 100;
+		final int start = 10;
 		final int end = 10_000;
 		final int WARMUP_ITERATIONS = 5;
 		final int INTENTOS = 20;
