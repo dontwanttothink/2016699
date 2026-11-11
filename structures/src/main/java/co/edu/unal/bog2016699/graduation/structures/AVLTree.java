@@ -117,6 +117,44 @@ public class AVLTree {
 		}
 		return Optional.empty();
 	}
+    public DynamicArray<Course> inOrder() {
+		DynamicArray<Course> result = new DynamicArray<>();
+		inOrder(root, result);
+		return result;
+	}
+ 
+	private static void inOrder(Node node, DynamicArray<Course> out) {
+		if (node == null) {
+			return;
+		}
+		inOrder(node.left, out);
+		out.add(node.course);
+		inOrder(node.right, out);
+	}
+ 
+	
+	public DynamicArray<Course> levelOrder() {
+		DynamicArray<Course> result = new DynamicArray<>();
+		if (root == null) {
+			return result;
+		}
+		for (int level = 1; level <= root.height; level++) {
+			collectLevel(root, level, result);
+		}
+		return result;
+	}
+ 
+	private static void collectLevel(Node node, int level, DynamicArray<Course> out) {
+		if (node == null) {
+			return;
+		}
+		if (level == 1) {
+			out.add(node.course);
+			return;
+		}
+		collectLevel(node.left, level - 1, out);
+		collectLevel(node.right, level - 1, out);
+	}
 
 	static Node rebalance(Node node) {
 		if (node.balanceFactor() < -1 && node.left.balanceFactor() <= 0) {

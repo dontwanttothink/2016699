@@ -59,6 +59,10 @@ public class Course {
 		materia.prerequisites.add(this);
 	}
 
+	public String getName() {
+			return nombre;
+	}
+
 	public int getId() {
 		return id;
 	}
