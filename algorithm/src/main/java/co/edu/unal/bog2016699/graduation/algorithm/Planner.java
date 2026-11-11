@@ -58,7 +58,7 @@ public class Planner {
 				if (plan.size() == 0)
 					break;
 
-				Course materia = plan.extractMaxCredits(maxCredits - creditosUsados);
+				Course materia = plan.extractMaxGivenMaximumCredits(maxCredits - creditosUsados);
 				if (materia == null)
 					break;
 
@@ -67,7 +67,7 @@ public class Planner {
 			}
 
 			if (semestreActual.size() == 0)
-				throw new Error("Existen materias con mas creditos que " + maxCredits);
+				throw new Error("Existen materias con más creditos que " + maxCredits);
 
 			semestres.add(semestreActual);
 		}
