@@ -117,12 +117,13 @@ public class AVLTree {
 		}
 		return Optional.empty();
 	}
-    public DynamicArray<Course> inOrder() {
+
+	public DynamicArray<Course> inOrder() {
 		DynamicArray<Course> result = new DynamicArray<>();
 		inOrder(root, result);
 		return result;
 	}
- 
+
 	private static void inOrder(Node node, DynamicArray<Course> out) {
 		if (node == null) {
 			return;
@@ -131,8 +132,7 @@ public class AVLTree {
 		out.add(node.course);
 		inOrder(node.right, out);
 	}
- 
-	
+
 	public DynamicArray<Course> levelOrder() {
 		DynamicArray<Course> result = new DynamicArray<>();
 		if (root == null) {
@@ -143,7 +143,7 @@ public class AVLTree {
 		}
 		return result;
 	}
- 
+
 	private static void collectLevel(Node node, int level, DynamicArray<Course> out) {
 		if (node == null) {
 			return;

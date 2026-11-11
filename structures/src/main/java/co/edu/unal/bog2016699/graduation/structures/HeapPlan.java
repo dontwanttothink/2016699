@@ -87,13 +87,12 @@ public class HeapPlan {
 	 * }
 	 */
 
-public Course extractMax() {
-        if (size == 0)
-            throw new IllegalStateException("El HeapPlan está vacío");
+	public Course extractMax() {
+		if (size == 0)
+			throw new IllegalStateException("El HeapPlan está vacío");
 
-        return extractMax_priv();
-    }
-    
+		return extractMax_priv();
+	}
 
 	public Course extractMaxCredits(int creditos) {
 		DynamicArray<Course> temp = new DynamicArray<>();
@@ -104,12 +103,12 @@ public Course extractMax() {
 
 		while (size > 0 && max.credits > creditos) {
 			removed = extractMax_priv();
-			if(size>0){
-			max = heap.get(0);
+			if (size > 0) {
+				max = heap.get(0);
 			}
 			temp.add(removed);
 		}
-		if (size>0 && max.isAvailable()) {
+		if (size > 0 && max.isAvailable()) {
 			maxOut = extractMax();
 		}
 		for (int i = 0; i < temp.size(); i++) {
@@ -122,7 +121,6 @@ public Course extractMax() {
 		return size;
 	}
 
-
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -130,8 +128,8 @@ public Course extractMax() {
 
 		for (int i = 0; i < heap.size(); i++) {
 			sb.append("[").append(i).append("] ")
-			  .append(heap.get(i).getId())
-			  .append("\n");
+					.append(heap.get(i).getId())
+					.append("\n");
 		}
 		return sb.toString();
 	}

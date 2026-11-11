@@ -60,7 +60,7 @@ public class Course {
 	}
 
 	public String getName() {
-			return nombre;
+		return nombre;
 	}
 
 	public int getId() {
