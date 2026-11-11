@@ -58,24 +58,16 @@ public class Planner {
 				if (plan.size() == 0)
 					break;
 
-				Course materia = plan.extractMax();
-				if (creditosUsados + materia.getCredits() > maxCredits) {
-					plan.put(materia);
+				Course materia = plan.extractMaxCredits(maxCredits - creditosUsados);
+				if (materia == null)
 					break;
-				}
 
 				semestreActual.add(materia);
 				creditosUsados += materia.getCredits();
 			}
 
-			for (Course materia : semestreActual) {
-				for (Course dependiente : materia.getDependents()) {
-					dependiente.getPrerequisites().remove(materia);
-					if (dependiente.isAvailable()) {
-						plan.put(dependiente);
-					}
-				}
-			}
+			if (semestreActual.size() == 0)
+				throw new Error("Existen materias con mas creditos que " + maxCredits);
 
 			semestres.add(semestreActual);
 		}

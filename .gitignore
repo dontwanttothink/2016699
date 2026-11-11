@@ -18,3 +18,5 @@ bin/
 .classpath
 
 .factorypath
+
+PlanificadorTiempos.csv

@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "PlannerTiempos",
+      "request": "launch",
+      "mainClass": "co.edu.unal.bog2016699.graduation.app.PlannerTiempos",
+      "projectName": "app"
+    },
+    {
+      "type": "java",
       "name": "App (heap)",
       "request": "launch",
       "mainClass": "co.edu.unal.bog2016699.graduation.app.App",
