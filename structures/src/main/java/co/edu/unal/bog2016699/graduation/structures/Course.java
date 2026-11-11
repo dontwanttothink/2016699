@@ -17,7 +17,7 @@ public class Course {
 				.toArray(String[][]::new);
 
 		Course[] courses = new Course[rows.length];
-		AVLTree byId = new AVLTree();
+		AVLTree<Course> byId = new AVLTree<>(Course::getId);
 		for (int i = 0; i < rows.length; i++) {
 			courses[i] = new Course(Integer.parseInt(rows[i][0]), rows[i][2], Integer.parseInt(rows[i][1]));
 			byId.put(courses[i]);

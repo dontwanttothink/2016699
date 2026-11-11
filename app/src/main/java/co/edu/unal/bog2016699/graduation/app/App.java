@@ -45,18 +45,20 @@ public class App {
 			}
 		}
 
-		if (algorithm == null || file == null)
+		if (algorithm == null || file == null) {
 			valid = false;
+		}
 
 		boolean algorithmOk = "0".equals(algorithm) || "1".equals(algorithm);
 		boolean avlOk = avl == null || "inorder".equals(avl) || "levels".equals(avl);
 
 		if (valid && algorithmOk && avlOk) {
 			String input = file.equals("-") ? new String(System.in.readAllBytes()) : Files.readString(Path.of(file));
-			if ("0".equals(algorithm))
+			if ("0".equals(algorithm)) {
 				listPlanner(input, avl);
-			else
+			} else {
 				heapPlanner(input, avl);
+			}
 			return;
 		}
 
@@ -84,7 +86,7 @@ public class App {
 	}
 
 	static DynamicArray<Entry> snapshot(Course[] courses, String avlOrder) {
-		AVLTree tree = new AVLTree();
+		AVLTree<Course> tree = new AVLTree<>(Course::getId);
 		for (Course course : courses)
 			tree.put(course);
 		DynamicArray<Course> ordered = "levels".equals(avlOrder) ? tree.levelOrder() : tree.inOrder();
@@ -107,7 +109,7 @@ public class App {
 				pairs.add(pairToString(entry.prerequisites.get(0), entry.course));
 		}
 
-		AVLTree passed = new AVLTree();
+		AVLTree<Course> passed = new AVLTree<>(Course::getId);
 		for (DynamicArray<Course> semester : semesters) {
 			for (Course course : semester)
 				passed.put(course);
@@ -145,18 +147,20 @@ public class App {
 	}
 
 	static void output(DynamicArray<Entry> entries, DynamicArray<DynamicArray<Course>> semesters, String rightHeader) {
-		if (entries == null)
+		if (entries == null) {
 			printSemesters(semesters);
-		else
+		} else {
 			printSideBySide(buildPairs(entries, semesters), semesters, rightHeader);
+		}
 	}
 
 	static void listPlanner(String input, String avlOrder) {
 		Course[] courses = Course.from(input);
 		DynamicArray<Entry> entries = avlOrder == null ? null : snapshot(courses, avlOrder);
 		ListPlan plan = new ListPlan();
-		for (Course course : courses)
+		for (Course course : courses) {
 			plan.agregarRaiz(course);
+		}
 		output(entries, Planner.planificar(plan), "lista");
 	}
 
@@ -166,9 +170,7 @@ public class App {
 		HeapPlan plan = new HeapPlan();
 
 		for (Course course : courses) {
-			if (course.isAvailable()) {
-				plan.put(course);
-			}
+			plan.put(course);
 		}
 		output(entries, Planner.planificar(plan), "heap");
 	}

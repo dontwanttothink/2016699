@@ -1,18 +1,23 @@
 package co.edu.unal.bog2016699.graduation.structures;
 
-// orden en el que van primero las materias disponibles
-
-// (es decir, que se pueden cursar),
-// y luego las que están bloqueadas. desempate por el número de dependientes
-// (menos dependientes van primero). **mas dependientes va primero no?
+import java.util.NoSuchElementException;
 
 public class HeapPlan {
+	private static final class CourseIndexRecord {
+		Course course;
+		int index;
 
+		CourseIndexRecord(Course course, int index) {
+			this.course = course;
+			this.index = index;
+		}
+	}
+
+	private AVLTree<CourseIndexRecord> indices = new AVLTree<CourseIndexRecord>(record -> record.course.id);
 	private DynamicArray<Course> heap;
 	private int size;
 
 	public HeapPlan() {
-
 		heap = new DynamicArray<>();
 		size = 0;
 	}
@@ -32,11 +37,13 @@ public class HeapPlan {
 	private void swap(int i, int j) {
 		Course temp = heap.get(i);
 		heap.set(i, heap.get(j));
+		indices.find(heap.get(j).id).index = i;
 		heap.set(j, temp);
+		indices.find(temp.id).index = j;
 	}
 
 	private void siftUp(int i) {
-		if (i == 0 || heap.get(i).comparePriority(heap.get(parent(i))) < 0)
+		if (i == 0 || heap.get(i).comparePriority(heap.get(parent(i))) <= 0)
 			return;
 		swap(i, parent(i));
 		siftUp(parent(i));
@@ -57,64 +64,62 @@ public class HeapPlan {
 	}
 
 	public void put(Course materia) {
-		heap.add(heap.size(), materia);
+		if (indices.has(materia.id)) {
+			throw new IllegalArgumentException("course " + materia.id + " is already in the heap");
+		}
+		heap.add(materia);
+		indices.put(new CourseIndexRecord(materia, size));
 		siftUp(size);
 		size++;
 	}
 
-	private Course extractMax_priv() {
-		Course max = heap.get(0);
+	public Course peek() {
+		if (size == 0) {
+			throw new NoSuchElementException();
+		}
+		return heap.get(0);
+	}
+
+	private Course extractMaxWithoutMutatingCourses() {
+		Course max = peek();
 		swap(0, size - 1);
+		indices.delete(heap.getLast().id);
 		heap.remove(size - 1);
+
 		size--;
-		if (size > 0)
+		if (size > 0) {
 			siftDown(0);
+		}
 		return max;
 	}
 
-	/*
-	 * public Course extractMax() { // quitarse del prerrequisito de los dependintes
-	 * Course max = extractMax_priv();
-	 * for (int i = 0; i < max.dependents.size(); i++) {
-	 * max.dependents.get(i).prerequisites.remove(0);
-	 * for (int j = 0; j < max.dependents.get(i).prerequisites.size(); j++) {
-	 * if (max == max.dependents.get(i).prerequisites.get(j)) {
-	 * max.dependents.get(i).prerequisites.remove(j);
-	 * }
-	 * }
-	 * }
-	 * return max; //metodo sin el remove(val) de arraylist
-	 * }
-	 */
-
 	public Course extractMax() {
-		if (size == 0)
-			throw new IllegalStateException("El HeapPlan está vacío");
-
-		return extractMax_priv();
+		Course out = extractMaxWithoutMutatingCourses();
+		for (Course dependent : out.getDependents()) {
+			dependent.prerequisites.removeBySwapping(dependent.prerequisites.indexOf(out));
+			indices.maybeFind(dependent.id).ifPresent(record -> siftUp(record.index));
+		}
+		return out;
 	}
 
-	public Course extractMaxCredits(int creditos) {
-		DynamicArray<Course> temp = new DynamicArray<>();
+	public Course extractMaxGivenMaximumCredits(int credits) {
+		DynamicArray<Course> removed = new DynamicArray<>();
 
-		Course removed = null;
-		Course max = heap.get(0);
-		Course maxOut = null;
+		while (size > 0 && peek().credits > credits) {
+			Course r = extractMaxWithoutMutatingCourses();
+			removed.add(r);
+		}
 
-		while (size > 0 && max.credits > creditos) {
-			removed = extractMax_priv();
-			if (size > 0) {
-				max = heap.get(0);
-			}
-			temp.add(removed);
+		Course out = null;
+		if (size > 0 && peek().isAvailable()) {
+			out = extractMax();
 		}
-		if (size > 0 && max.isAvailable()) {
-			maxOut = extractMax();
+
+		for (int i = 0; i < removed.size(); i++) {
+			put(removed.get(i));
 		}
-		for (int i = 0; i < temp.size(); i++) {
-			put(temp.get(i));
-		}
-		return maxOut;
+
+		return out;
 	}
 
 	public int size() {
@@ -124,13 +129,11 @@ public class HeapPlan {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Estado actual del HeapPlan (Materias disponibles):\n");
-
+		sb.append("Estado del Heap:\n");
 		for (int i = 0; i < heap.size(); i++) {
-			sb.append("[").append(i).append("] ")
-					.append(heap.get(i).getId())
-					.append("\n");
+			sb.append(heap.get(i).getId()).append(" ");
 		}
+		sb.append("\n");
 		return sb.toString();
 	}
 }

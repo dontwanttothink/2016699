@@ -1,16 +1,18 @@
 package co.edu.unal.bog2016699.graduation.structures;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.ToIntFunction;
 
-class Node {
-	Course course;
-	Node left;
-	Node right;
+class Node<T> {
+	T value;
+	Node<T> left;
+	Node<T> right;
 
 	int height = 1;
 
-	private static int heightOf(Node node) {
+	private static int heightOf(Node<?> node) {
 		if (node == null) {
 			return 0;
 		}
@@ -25,116 +27,127 @@ class Node {
 		return -heightOf(left) + heightOf(right);
 	}
 
-	Node(Course materia) {
-		this.course = materia;
+	Node(T value) {
+		this.value = value;
 	}
 }
 
-public class AVLTree {
-	private Node root = null;
+public class AVLTree<T> {
+	private final ToIntFunction<T> keyOf;
+	private Node<T> root = null;
 
-	public void put(Course materia) {
-		if (materia == null) {
-			throw new IllegalArgumentException("no null 🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬");
-		}
-
-		root = put(materia, root);
+	public AVLTree(ToIntFunction<T> keyOf) {
+		this.keyOf = Objects.requireNonNull(keyOf);
 	}
 
-	private static Node put(Course materia, Node root) {
-		if (root == null) {
-			return new Node(materia);
+	public void put(T item) {
+		if (item == null) {
+			throw new IllegalArgumentException("Item must not be null.");
 		}
 
-		if (materia.id < root.course.id) {
-			root.left = put(materia, root.left);
-		} else if (materia.id > root.course.id) {
-			root.right = put(materia, root.right);
+		root = put(item, root);
+	}
+
+	private Node<T> put(T item, Node<T> node) {
+		if (node == null) {
+			return new Node<>(item);
+		}
+
+		int key = keyOf.applyAsInt(item);
+		int nodeKey = keyOf.applyAsInt(node.value);
+
+		if (key < nodeKey) {
+			node.left = put(item, node.left);
+		} else if (key > nodeKey) {
+			node.right = put(item, node.right);
 		} else {
-			root.course = materia;
+			node.value = item;
 		}
 
-		root.updateHeight();
-		return rebalance(root);
+		node.updateHeight();
+		return rebalance(node);
 	}
 
 	void delete(int id) {
 		root = delete(id, root);
 	}
 
-	private static Node leftmostIn(Node root) {
-		Node current = root;
+	private static <T> Node<T> leftmostIn(Node<T> node) {
+		Node<T> current = node;
 		while (current.left != null) {
 			current = current.left;
 		}
 		return current;
 	}
 
-	private static Node delete(int id, Node root) {
-		if (root == null) {
+	private Node<T> delete(int id, Node<T> node) {
+		if (node == null) {
 			throw new NoSuchElementException();
 		}
 
-		if (root.course.id == id) {
-			if (root.right == null) {
-				return root.left;
+		int nodeKey = keyOf.applyAsInt(node.value);
+
+		if (nodeKey == id) {
+			if (node.right == null) {
+				return node.left;
 			}
 
-			root.course = leftmostIn(root.right).course;
-			root.right = delete(root.course.id, root.right);
-			root.updateHeight();
-			return rebalance(root);
+			node.value = leftmostIn(node.right).value;
+			node.right = delete(keyOf.applyAsInt(node.value), node.right);
+			node.updateHeight();
+			return rebalance(node);
 		}
 
-		if (id < root.course.id) {
-			root.left = delete(id, root.left);
+		if (id < nodeKey) {
+			node.left = delete(id, node.left);
 		} else {
-			root.right = delete(id, root.right);
+			node.right = delete(id, node.right);
 		}
-		root.updateHeight();
-		return rebalance(root);
+		node.updateHeight();
+		return rebalance(node);
 	}
 
 	public boolean has(int id) {
 		return maybeFind(id).isPresent();
 	}
 
-	public Course find(int id) {
+	public T find(int id) {
 		return maybeFind(id).orElseThrow(
 				() -> new NoSuchElementException());
 	}
 
-	public Optional<Course> maybeFind(int id) {
-		Node current = root;
+	public Optional<T> maybeFind(int id) {
+		Node<T> current = root;
 		while (current != null) {
-			if (id < current.course.id) {
+			int nodeKey = keyOf.applyAsInt(current.value);
+			if (id < nodeKey) {
 				current = current.left;
-			} else if (id > current.course.id) {
+			} else if (id > nodeKey) {
 				current = current.right;
 			} else {
-				return Optional.of(current.course);
+				return Optional.of(current.value);
 			}
 		}
 		return Optional.empty();
 	}
 
-	public DynamicArray<Course> inOrder() {
-		DynamicArray<Course> result = new DynamicArray<>();
+	public DynamicArray<T> inOrder() {
+		DynamicArray<T> result = new DynamicArray<>();
 		inOrder(root, result);
 		return result;
 	}
 
-	private static void inOrder(Node node, DynamicArray<Course> out) {
+	private static <T> void inOrder(Node<T> node, DynamicArray<T> out) {
 		if (node == null) {
 			return;
 		}
 		inOrder(node.left, out);
-		out.add(node.course);
+		out.add(node.value);
 		inOrder(node.right, out);
 	}
 
-	public DynamicArray<Course> levelOrder() {
-		DynamicArray<Course> result = new DynamicArray<>();
+	public DynamicArray<T> levelOrder() {
+		DynamicArray<T> result = new DynamicArray<>();
 		if (root == null) {
 			return result;
 		}
@@ -144,19 +157,19 @@ public class AVLTree {
 		return result;
 	}
 
-	private static void collectLevel(Node node, int level, DynamicArray<Course> out) {
+	private static <T> void collectLevel(Node<T> node, int level, DynamicArray<T> out) {
 		if (node == null) {
 			return;
 		}
 		if (level == 1) {
-			out.add(node.course);
+			out.add(node.value);
 			return;
 		}
 		collectLevel(node.left, level - 1, out);
 		collectLevel(node.right, level - 1, out);
 	}
 
-	static Node rebalance(Node node) {
+	static <T> Node<T> rebalance(Node<T> node) {
 		if (node.balanceFactor() < -1 && node.left.balanceFactor() <= 0) {
 			node = rightRotate(node);
 		} else if (node.balanceFactor() < -1 && node.left.balanceFactor() >= 0) {
@@ -171,8 +184,8 @@ public class AVLTree {
 		return node;
 	}
 
-	static Node leftRotate(Node node) {
-		Node newRoot = node.right;
+	static <T> Node<T> leftRotate(Node<T> node) {
+		Node<T> newRoot = node.right;
 
 		node.right = newRoot.left;
 		node.updateHeight();
@@ -183,8 +196,8 @@ public class AVLTree {
 		return newRoot;
 	}
 
-	static Node rightRotate(Node node) {
-		Node newRoot = node.left;
+	static <T> Node<T> rightRotate(Node<T> node) {
+		Node<T> newRoot = node.left;
 
 		node.left = newRoot.right;
 		node.updateHeight();

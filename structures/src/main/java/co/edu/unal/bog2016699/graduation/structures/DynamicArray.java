@@ -93,6 +93,20 @@ public class DynamicArray<T> extends AbstractList<T> implements RandomAccess {
 		shrinkIfNeeded();
 	}
 
+	/**
+	 * amortized constant time (intended)
+	 */
+	public T removeBySwapping(int i) {
+		checkIndex(i, size);
+		T removed = buffer[i];
+		buffer[i] = buffer[size - 1];
+		buffer[size - 1] = null;
+		--size;
+		++modCount;
+		shrinkIfNeeded();
+		return removed;
+	}
+
 	private void shrinkIfNeeded() {
 		if (size <= buffer.length / 4) {
 			buffer = copyOf(buffer, buffer.length / 2);
