@@ -12,8 +12,10 @@ public class Planner {
 		maxCredits = creditos;
 	}
 
-	public static DynamicArray<DynamicArray<Course>> plan(ListPlan plan) {
+	public static DynamicArray<DynamicArray<Course>> plan(ListPlan plan, int totalMaterias) {
 		DynamicArray<DynamicArray<Course>> semestres = new DynamicArray<>();
+		int materiasPlanificadas = 0;
+
 		while (plan.getRoots().size() > 0) {
 			DynamicArray<Course> semestreActual = new DynamicArray<>();
 			int creditosUsados = 0;
@@ -45,7 +47,12 @@ public class Planner {
 			for (Course materia : semestreActual) {
 				plan.eliminar(materia);
 			}
+			materiasPlanificadas += semestreActual.size();
 			semestres.add(semestreActual);
+		}
+
+		if (materiasPlanificadas != totalMaterias) {
+			throw new Error("Es imposible completar este plan de estudios.");
 		}
 		return semestres;
 	}

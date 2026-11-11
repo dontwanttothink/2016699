@@ -79,7 +79,7 @@ public class App {
 				plan.agregarRaiz(course);
 			}
 		}
-		printSemesters(Planner.plan(plan));
+		printSemesters(Planner.plan(plan, courses.length));
 	}
 
 	static void heapPlanner(String input, boolean verbose) {

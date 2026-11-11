@@ -33,7 +33,7 @@ public class PlannerTiempos {
 			for (int w = 0; w < WARMUP_ITERATIONS; w++) {
 				long seed = rand.nextLong();
 				ListPlan planListWarmup = construirListPlan(generarMaterias(n, new Random(seed)));
-				Planner.plan(planListWarmup);
+				Planner.plan(planListWarmup, n);
 				HeapPlan planHeapWarmup = construirHeapPlan(generarMaterias(n, new Random(seed)));
 				Planner.plan(planHeapWarmup);
 			}
@@ -52,7 +52,7 @@ public class PlannerTiempos {
 				System.gc();
 
 				long inicio = System.nanoTime();
-				Planner.plan(listPlan);
+				Planner.plan(listPlan, n);
 				long fin = System.nanoTime();
 				totalNanosList += (fin - inicio);
 
