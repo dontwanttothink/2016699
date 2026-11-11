@@ -12,7 +12,7 @@ public class Planner {
 		maxCredits = creditos;
 	}
 
-	public static DynamicArray<DynamicArray<Course>> planificar(ListPlan plan) {
+	public static DynamicArray<DynamicArray<Course>> plan(ListPlan plan) {
 		DynamicArray<DynamicArray<Course>> semestres = new DynamicArray<>();
 		while (plan.getRoots().size() > 0) {
 			DynamicArray<Course> semestreActual = new DynamicArray<>();
@@ -40,6 +40,9 @@ public class Planner {
 				}
 			}
 
+			if (semestreActual.size() == 0)
+				throw new Error("Existen materias con más creditos que " + maxCredits);
+
 			for (Course materia : semestreActual) {
 				plan.eliminar(materia);
 			}
@@ -48,17 +51,14 @@ public class Planner {
 		return semestres;
 	}
 
-	public static DynamicArray<DynamicArray<Course>> planificar(HeapPlan plan) {
+	public static DynamicArray<DynamicArray<Course>> plan(HeapPlan plan) {
 		DynamicArray<DynamicArray<Course>> semestres = new DynamicArray<>();
 		while (plan.size() > 0) {
 			DynamicArray<Course> semestreActual = new DynamicArray<>();
 			int creditosUsados = 0;
 
 			while (true) {
-				if (plan.size() == 0)
-					break;
-
-				Course materia = plan.extractMaxGivenMaximumCredits(maxCredits - creditosUsados);
+				Course materia = plan.extractMaxAvailableGivenMaximumCredits(maxCredits - creditosUsados);
 				if (materia == null)
 					break;
 

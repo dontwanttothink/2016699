@@ -11,13 +11,25 @@ public class HeapPlan {
 			this.course = course;
 			this.index = index;
 		}
+
+		@Override
+		public String toString() {
+			return course.id + "," + index;
+		}
 	}
 
-	private AVLTree<CourseIndexRecord> indices = new AVLTree<CourseIndexRecord>(record -> record.course.id);
+	private final AVLTree<CourseIndexRecord> indices;
+	private final boolean verbose;
 	private DynamicArray<Course> heap;
 	private int size;
 
 	public HeapPlan() {
+		this(false);
+	}
+
+	public HeapPlan(boolean verbose) {
+		this.verbose = verbose;
+		indices = new AVLTree<CourseIndexRecord>(record -> record.course.id, verbose);
 		heap = new DynamicArray<>();
 		size = 0;
 	}
@@ -71,6 +83,7 @@ public class HeapPlan {
 		indices.put(new CourseIndexRecord(materia, size));
 		siftUp(size);
 		size++;
+		lookingGlass();
 	}
 
 	public Course peek() {
@@ -90,6 +103,7 @@ public class HeapPlan {
 		if (size > 0) {
 			siftDown(0);
 		}
+		lookingGlass();
 		return max;
 	}
 
@@ -97,10 +111,11 @@ public class HeapPlan {
 		indices.maybeFind(materia.id).ifPresent(record -> {
 			siftUp(record.index);
 			siftDown(record.index);
+			lookingGlass();
 		});
 	}
 
-	public Course extractMaxGivenMaximumCredits(int credits) {
+	public Course extractMaxAvailableGivenMaximumCredits(int credits) {
 		DynamicArray<Course> removed = new DynamicArray<>();
 
 		while (size > 0 && peek().credits > credits) {
@@ -124,14 +139,16 @@ public class HeapPlan {
 		return size;
 	}
 
-	@Override
-	public String toString() {
+	private void lookingGlass() {
+		if (!verbose) {
+			return;
+		}
+
 		StringBuilder sb = new StringBuilder();
 		sb.append("Estado del Heap:\n");
 		for (int i = 0; i < heap.size(); i++) {
 			sb.append(heap.get(i).getId()).append(" ");
 		}
-		sb.append("\n");
-		return sb.toString();
+		IO.println(sb.toString());
 	}
 }

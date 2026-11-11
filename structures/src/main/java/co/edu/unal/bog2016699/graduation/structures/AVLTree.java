@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.ToIntFunction;
+import java.util.stream.Collectors;
 
 class Node<T> {
 	T value;
@@ -34,10 +35,16 @@ class Node<T> {
 
 public class AVLTree<T> {
 	private final ToIntFunction<T> keyOf;
+	private final boolean verbose;
 	private Node<T> root = null;
 
 	public AVLTree(ToIntFunction<T> keyOf) {
+		this(keyOf, false);
+	}
+
+	public AVLTree(ToIntFunction<T> keyOf, boolean verbose) {
 		this.keyOf = Objects.requireNonNull(keyOf);
+		this.verbose = verbose;
 	}
 
 	public void put(T item) {
@@ -46,6 +53,7 @@ public class AVLTree<T> {
 		}
 
 		root = put(item, root);
+		lookingGlass();
 	}
 
 	private Node<T> put(T item, Node<T> node) {
@@ -70,6 +78,7 @@ public class AVLTree<T> {
 
 	void delete(int id) {
 		root = delete(id, root);
+		lookingGlass();
 	}
 
 	private static <T> Node<T> leftmostIn(Node<T> node) {
@@ -131,45 +140,33 @@ public class AVLTree<T> {
 		return Optional.empty();
 	}
 
-	public DynamicArray<T> inOrder() {
-		DynamicArray<T> result = new DynamicArray<>();
-		inOrder(root, result);
-		return result;
-	}
-
-	private static <T> void inOrder(Node<T> node, DynamicArray<T> out) {
+	private static <T> void collectEdges(Node<T> node, DynamicArray<String> edges) {
 		if (node == null) {
 			return;
 		}
-		inOrder(node.left, out);
-		out.add(node.value);
-		inOrder(node.right, out);
+		if (node.left != null) {
+			edges.add(String.valueOf(node.value));
+			edges.add(String.valueOf(node.left.value));
+		}
+		if (node.right != null) {
+			edges.add(String.valueOf(node.value));
+			edges.add(String.valueOf(node.right.value));
+		}
+		collectEdges(node.left, edges);
+		collectEdges(node.right, edges);
 	}
 
-	public DynamicArray<T> levelOrder() {
-		DynamicArray<T> result = new DynamicArray<>();
-		if (root == null) {
-			return result;
-		}
-		for (int level = 1; level <= root.height; level++) {
-			collectLevel(root, level, result);
-		}
-		return result;
-	}
-
-	private static <T> void collectLevel(Node<T> node, int level, DynamicArray<T> out) {
-		if (node == null) {
+	private void lookingGlass() {
+		if (!verbose) {
 			return;
 		}
-		if (level == 1) {
-			out.add(node.value);
-			return;
-		}
-		collectLevel(node.left, level - 1, out);
-		collectLevel(node.right, level - 1, out);
+
+		DynamicArray<String> edges = new DynamicArray<>();
+		collectEdges(root, edges);
+		IO.println("Estado del AVL:\n" + edges.stream().collect(Collectors.joining(" ")));
 	}
 
-	static <T> Node<T> rebalance(Node<T> node) {
+	Node<T> rebalance(Node<T> node) {
 		if (node.balanceFactor() < -1 && node.left.balanceFactor() <= 0) {
 			node = rightRotate(node);
 		} else if (node.balanceFactor() < -1 && node.left.balanceFactor() >= 0) {
@@ -184,7 +181,8 @@ public class AVLTree<T> {
 		return node;
 	}
 
-	static <T> Node<T> leftRotate(Node<T> node) {
+	Node<T> leftRotate(Node<T> node) {
+		lookingGlass();
 		Node<T> newRoot = node.right;
 
 		node.right = newRoot.left;
@@ -193,10 +191,12 @@ public class AVLTree<T> {
 		newRoot.left = node;
 		newRoot.updateHeight();
 
+		lookingGlass();
 		return newRoot;
 	}
 
-	static <T> Node<T> rightRotate(Node<T> node) {
+	Node<T> rightRotate(Node<T> node) {
+		lookingGlass();
 		Node<T> newRoot = node.left;
 
 		node.left = newRoot.right;
@@ -205,6 +205,7 @@ public class AVLTree<T> {
 		newRoot.right = node;
 		newRoot.updateHeight();
 
+		lookingGlass();
 		return newRoot;
 	}
 }

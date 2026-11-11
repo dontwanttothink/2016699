@@ -33,9 +33,9 @@ public class PlannerTiempos {
 			for (int w = 0; w < WARMUP_ITERATIONS; w++) {
 				DynamicArray<Course> materiasWarmup = generarMaterias(n, rand);
 				ListPlan planListWarmup = construirListPlan(materiasWarmup);
-				Planner.planificar(planListWarmup);
+				Planner.plan(planListWarmup);
 				HeapPlan planHeapWarmup = construirHeapPlan(materiasWarmup);
-				Planner.planificar(planHeapWarmup);
+				Planner.plan(planHeapWarmup);
 			}
 
 			long totalNanosList = 0;
@@ -49,7 +49,7 @@ public class PlannerTiempos {
 				System.gc();
 
 				long inicio = System.nanoTime();
-				Planner.planificar(listPlan);
+				Planner.plan(listPlan);
 				long fin = System.nanoTime();
 				totalNanosList += (fin - inicio);
 
@@ -58,7 +58,7 @@ public class PlannerTiempos {
 				System.gc();
 
 				inicio = System.nanoTime();
-				Planner.planificar(heapPlan);
+				Planner.plan(heapPlan);
 				fin = System.nanoTime();
 				totalNanosHeap += (fin - inicio);
 			}
