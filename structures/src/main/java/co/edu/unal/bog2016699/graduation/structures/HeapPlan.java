@@ -118,7 +118,7 @@ public class HeapPlan {
 	public Course extractMaxAvailableGivenMaximumCredits(int credits) {
 		DynamicArray<Course> removed = new DynamicArray<>();
 
-		while (size > 0 && peek().credits > credits) {
+		while (size > 0 && peek().isAvailable() && peek().credits > credits) {
 			Course r = extractMax();
 			removed.add(r);
 		}

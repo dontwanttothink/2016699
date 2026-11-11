@@ -31,10 +31,10 @@ public class PlannerTiempos {
 			System.out.printf("n = %d materias\n", n);
 
 			for (int w = 0; w < WARMUP_ITERATIONS; w++) {
-				DynamicArray<Course> materiasWarmup = generarMaterias(n, rand);
-				ListPlan planListWarmup = construirListPlan(materiasWarmup);
+				long seed = rand.nextLong();
+				ListPlan planListWarmup = construirListPlan(generarMaterias(n, new Random(seed)));
 				Planner.plan(planListWarmup);
-				HeapPlan planHeapWarmup = construirHeapPlan(materiasWarmup);
+				HeapPlan planHeapWarmup = construirHeapPlan(generarMaterias(n, new Random(seed)));
 				Planner.plan(planHeapWarmup);
 			}
 
@@ -42,10 +42,13 @@ public class PlannerTiempos {
 			long totalNanosHeap = 0;
 
 			for (int rep = 0; rep < INTENTOS; rep++) {
-				DynamicArray<Course> materias = generarMaterias(n, rand);
+				// Es necesario generar las materias dos veces porque los métodos de
+				// planificación destruyen las estructuras :p
+
+				long seed = rand.nextLong();
 
 				// ----- ListPlan -----
-				ListPlan listPlan = construirListPlan(materias);
+				ListPlan listPlan = construirListPlan(generarMaterias(n, new Random(seed)));
 				System.gc();
 
 				long inicio = System.nanoTime();
@@ -54,7 +57,7 @@ public class PlannerTiempos {
 				totalNanosList += (fin - inicio);
 
 				// ----- HeapPlan -----
-				HeapPlan heapPlan = construirHeapPlan(materias);
+				HeapPlan heapPlan = construirHeapPlan(generarMaterias(n, new Random(seed)));
 				System.gc();
 
 				inicio = System.nanoTime();
@@ -110,9 +113,7 @@ public class PlannerTiempos {
 	private static HeapPlan construirHeapPlan(DynamicArray<Course> materias) {
 		HeapPlan plan = new HeapPlan();
 		for (Course materia : materias) {
-			if (materia.isAvailable()) {
-				plan.put(materia);
-			}
+			plan.put(materia);
 		}
 		return plan;
 	}

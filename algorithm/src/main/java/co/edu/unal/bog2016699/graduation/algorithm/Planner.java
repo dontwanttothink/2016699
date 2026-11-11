@@ -23,8 +23,7 @@ public class Planner {
 				Course mejorMateria = null;
 				for (Course materia : materiasCandidatas) {
 					if (creditosUsados + materia.getCredits() <= maxCredits) {
-						if (mejorMateria == null
-								|| materia.getDependentsCount() > mejorMateria.getDependentsCount()) {
+						if (mejorMateria == null || materia.comparePriority(mejorMateria) > 0) {
 							mejorMateria = materia;
 						}
 					}
@@ -66,8 +65,9 @@ public class Planner {
 				creditosUsados += materia.getCredits();
 			}
 
-			if (semestreActual.size() == 0)
-				throw new Error("Existen materias con más creditos que " + maxCredits);
+			if (semestreActual.size() == 0) {
+				throw new Error("Es imposible completar este plan de estudios.");
+			}
 
 			for (Course materia : semestreActual) {
 				for (Course dependiente : materia.getDependents()) {
