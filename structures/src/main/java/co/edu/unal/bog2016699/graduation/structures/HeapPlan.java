@@ -30,19 +30,16 @@ public class HeapPlan {
 	}
 
 	private void swap(int i, int j) {
-
 		Course temp = heap.get(i);
 		heap.set(i, heap.get(j));
 		heap.set(j, temp);
 	}
 
 	private void siftUp(int i) {
-
 		if (i == 0 || heap.get(i).comparePriority(heap.get(parent(i))) < 0)
 			return;
 		swap(i, parent(i));
 		siftUp(parent(i));
-
 	}
 
 	private void siftDown(int i) {
@@ -60,7 +57,6 @@ public class HeapPlan {
 	}
 
 	public void put(Course materia) {
-
 		heap.add(heap.size(), materia);
 		siftUp(size);
 		size++;
@@ -91,30 +87,30 @@ public class HeapPlan {
 	 * }
 	 */
 
-	public Course extractMax() { // quitarse del prerrequisito de los dependintes
-		Course max = extractMax_priv();
-		for (int i = 0; i < max.dependents.size(); i++) {
-			max.dependents.get(i).prerequisites.remove(max);
-			siftUp(i + 1); // no correcto creo habra que actualizar todo el arbol
-		}
-		return max;
-	}
+public Course extractMax() {
+        if (size == 0)
+            throw new IllegalStateException("El HeapPlan está vacío");
+
+        return extractMax_priv();
+    }
+    
 
 	public Course extractMaxCredits(int creditos) {
 		DynamicArray<Course> temp = new DynamicArray<>();
 
-		Course removed = heap.get(0);
+		Course removed = null;
 		Course max = heap.get(0);
 		Course maxOut = null;
 
 		while (size > 0 && max.credits > creditos) {
 			removed = extractMax_priv();
+			if(size>0){
 			max = heap.get(0);
+			}
 			temp.add(removed);
 		}
-		if (max.isAvailable()) {
-			max = extractMax();
-			maxOut = max;
+		if (size>0 && max.isAvailable()) {
+			maxOut = extractMax();
 		}
 		for (int i = 0; i < temp.size(); i++) {
 			put(temp.get(i));
@@ -124,5 +120,19 @@ public class HeapPlan {
 
 	public int size() {
 		return size;
+	}
+
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Estado actual del HeapPlan (Materias disponibles):\n");
+
+		for (int i = 0; i < heap.size(); i++) {
+			sb.append("[").append(i).append("] ")
+			  .append(heap.get(i).getId())
+			  .append("\n");
+		}
+		return sb.toString();
 	}
 }

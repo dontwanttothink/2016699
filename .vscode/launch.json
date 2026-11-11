@@ -1,0 +1,35 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "App (heap)",
+      "request": "launch",
+      "mainClass": "co.edu.unal.bog2016699.graduation.app.App",
+      "projectName": "app",
+      "args": [
+        "--algorithm",
+        "1",
+        "--avl",
+        "inorder",
+        "${workspaceFolder}/malla_curricular_sistemas_unal.txt"
+      ],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "java",
+      "name": "App (Heap)",
+      "request": "launch",
+      "mainClass": "co.edu.unal.bog2016699.graduation.app.App",
+      "projectName": "app",
+      "args": [
+        "--algorithm",
+        "0",
+        "--avl",
+        "inorder",
+        "${workspaceFolder}/malla_curricular_sistemas_unal.txt"
+      ],
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+1000001$4$Calculo Diferencial$$
+1000002$4$Algebra Lineal$$
+2015734$3$Programacion Orientada a Objetos$$
+1000003$3$Fisica Mecanica$$
+1000004$4$Calculo Integral$$1000001
+1000005$4$Fisica Electromagnetismo$$1000003
+2016698$3$Estructuras de Datos$$2015734
+2015736$3$Matematicas Discretas I$$
+1000006$4$Calculo en Varias Variables$$1000002,1000004
+1000007$4$Ecuaciones Diferenciales$$1000002,1000004
+2016707$3$Matematicas Discretas II$$2015736
+2016699$3$Algoritmos$$2016698,2015736
+1000008$4$Probabilidad y Estadistica$$1000004
+2016701$3$Bases de Datos$$2016698
+2016702$3$Arquitectura de Computadores$$2015734
+2016703$3$Ingenieria de Software$$2015734
+2016704$3$Redes de Computadores$$2016702
+2016705$3$Sistemas Operativos$$2016702
+2016710$3$Lenguajes de Programacion$$2016699
+2016711$3$Modelos y Simulacion$$1000008,2016699
+2016712$3$Inteligencia Artificial$$2016699,1000008
