@@ -69,6 +69,13 @@ public class Planner {
 			if (semestreActual.size() == 0)
 				throw new Error("Existen materias con más creditos que " + maxCredits);
 
+			for (Course materia : semestreActual) {
+				for (Course dependiente : materia.getDependents()) {
+					dependiente.removePrerequisite(materia);
+					plan.notifyPriorityChanged(dependiente);
+				}
+			}
+
 			semestres.add(semestreActual);
 		}
 		return semestres;

@@ -83,6 +83,10 @@ public class Course {
 		return dependents.size();
 	}
 
+	public void removePrerequisite(Course materia) {
+		this.prerequisites.remove(materia);
+	}
+
 	public boolean isAvailable() {
 		return prerequisites.size() == 0;
 	}

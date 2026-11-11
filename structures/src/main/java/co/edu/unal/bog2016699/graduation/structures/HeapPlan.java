@@ -80,7 +80,7 @@ public class HeapPlan {
 		return heap.get(0);
 	}
 
-	private Course extractMaxWithoutMutatingCourses() {
+	public Course extractMax() {
 		Course max = peek();
 		swap(0, size - 1);
 		indices.delete(heap.getLast().id);
@@ -93,20 +93,18 @@ public class HeapPlan {
 		return max;
 	}
 
-	public Course extractMax() {
-		Course out = extractMaxWithoutMutatingCourses();
-		for (Course dependent : out.getDependents()) {
-			dependent.prerequisites.removeBySwapping(dependent.prerequisites.indexOf(out));
-			indices.maybeFind(dependent.id).ifPresent(record -> siftUp(record.index));
-		}
-		return out;
+	public void notifyPriorityChanged(Course materia) {
+		indices.maybeFind(materia.id).ifPresent(record -> {
+			siftUp(record.index);
+			siftDown(record.index);
+		});
 	}
 
 	public Course extractMaxGivenMaximumCredits(int credits) {
 		DynamicArray<Course> removed = new DynamicArray<>();
 
 		while (size > 0 && peek().credits > credits) {
-			Course r = extractMaxWithoutMutatingCourses();
+			Course r = extractMax();
 			removed.add(r);
 		}
 
