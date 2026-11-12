@@ -22,7 +22,6 @@ public class PlannerTiempos {
 		final int INTENTOS = 20;
 		final int CREDITOS_MAX = 20;
 
-		Planner.setMaxCredits(CREDITOS_MAX);
 		Random rand = new Random(42);
 
 		Map<Integer, Map<String, Double>> resultados = new LinkedHashMap<>();
@@ -33,9 +32,9 @@ public class PlannerTiempos {
 			for (int w = 0; w < WARMUP_ITERATIONS; w++) {
 				long seed = rand.nextLong();
 				ListPlan planListWarmup = construirListPlan(generarMaterias(n, new Random(seed)));
-				Planner.plan(planListWarmup, n);
+				Planner.plan(planListWarmup, n, CREDITOS_MAX);
 				HeapPlan planHeapWarmup = construirHeapPlan(generarMaterias(n, new Random(seed)));
-				Planner.plan(planHeapWarmup);
+				Planner.plan(planHeapWarmup, CREDITOS_MAX);
 			}
 
 			long totalNanosList = 0;
@@ -52,7 +51,7 @@ public class PlannerTiempos {
 				System.gc();
 
 				long inicio = System.nanoTime();
-				Planner.plan(listPlan, n);
+				Planner.plan(listPlan, n, CREDITOS_MAX);
 				long fin = System.nanoTime();
 				totalNanosList += (fin - inicio);
 
@@ -61,7 +60,7 @@ public class PlannerTiempos {
 				System.gc();
 
 				inicio = System.nanoTime();
-				Planner.plan(heapPlan);
+				Planner.plan(heapPlan, CREDITOS_MAX);
 				fin = System.nanoTime();
 				totalNanosHeap += (fin - inicio);
 			}

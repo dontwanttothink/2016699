@@ -6,13 +6,7 @@ import co.edu.unal.bog2016699.graduation.structures.ListPlan;
 import co.edu.unal.bog2016699.graduation.structures.Course;
 
 public class Planner {
-	public static int maxCredits = 20;
-
-	public static void setMaxCredits(int creditos) {
-		maxCredits = creditos;
-	}
-
-	public static DynamicArray<DynamicArray<Course>> plan(ListPlan plan, int totalMaterias) {
+	public static DynamicArray<DynamicArray<Course>> plan(ListPlan plan, int totalMaterias, int maxCredits) {
 		DynamicArray<DynamicArray<Course>> semestres = new DynamicArray<>();
 		int materiasPlanificadas = 0;
 
@@ -57,7 +51,7 @@ public class Planner {
 		return semestres;
 	}
 
-	public static DynamicArray<DynamicArray<Course>> plan(HeapPlan plan) {
+	public static DynamicArray<DynamicArray<Course>> plan(HeapPlan plan, int maxCredits) {
 		DynamicArray<DynamicArray<Course>> semestres = new DynamicArray<>();
 		while (plan.size() > 0) {
 			DynamicArray<Course> semestreActual = new DynamicArray<>();
