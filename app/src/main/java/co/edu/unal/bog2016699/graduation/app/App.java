@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Collectors;
 
+import co.edu.unal.bog2016699.graduation.algorithm.ImpossiblePlanException;
 import co.edu.unal.bog2016699.graduation.algorithm.Planner;
 import co.edu.unal.bog2016699.graduation.structures.*;
 
@@ -51,10 +52,15 @@ public class App {
 
 		if (valid && algorithmOk) {
 			String input = file.equals("-") ? new String(System.in.readAllBytes()) : Files.readString(Path.of(file));
-			if ("0".equals(algorithm)) {
-				listPlanner(input, verbose);
-			} else {
-				heapPlanner(input, verbose);
+			try {
+				if ("0".equals(algorithm)) {
+					listPlanner(input, verbose);
+				} else {
+					heapPlanner(input, verbose);
+				}
+			} catch (ImpossiblePlanException e) {
+				System.err.println(e.getMessage());
+				System.exit(2);
 			}
 			return;
 		}

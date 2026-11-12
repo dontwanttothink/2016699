@@ -42,7 +42,7 @@ public class Planner {
 			}
 
 			if (semestreActual.size() == 0)
-				throw new Error("Existen materias con más creditos que " + maxCredits);
+				throw new ImpossiblePlanException("Existen materias con más creditos que " + maxCredits);
 
 			for (Course materia : semestreActual) {
 				plan.eliminar(materia);
@@ -52,7 +52,7 @@ public class Planner {
 		}
 
 		if (materiasPlanificadas != totalMaterias) {
-			throw new Error("Es imposible completar este plan de estudios.");
+			throw new ImpossiblePlanException("Es imposible completar este plan de estudios.");
 		}
 		return semestres;
 	}
@@ -73,7 +73,7 @@ public class Planner {
 			}
 
 			if (semestreActual.size() == 0) {
-				throw new Error("Es imposible completar este plan de estudios.");
+				throw new ImpossiblePlanException("Es imposible completar este plan de estudios.");
 			}
 
 			for (Course materia : semestreActual) {
