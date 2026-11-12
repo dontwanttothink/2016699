@@ -140,20 +140,14 @@ public class AVLTree<T> {
 		return Optional.empty();
 	}
 
-	private static <T> void collectEdges(Node<T> node, DynamicArray<String> edges) {
+	private static <T> void collectPreorder(Node<T> node, DynamicArray<String> tokens) {
 		if (node == null) {
+			tokens.add("-");
 			return;
 		}
-		if (node.left != null) {
-			edges.add(String.valueOf(node.value));
-			edges.add(String.valueOf(node.left.value));
-		}
-		if (node.right != null) {
-			edges.add(String.valueOf(node.value));
-			edges.add(String.valueOf(node.right.value));
-		}
-		collectEdges(node.left, edges);
-		collectEdges(node.right, edges);
+		tokens.add(String.valueOf(node.value));
+		collectPreorder(node.left, tokens);
+		collectPreorder(node.right, tokens);
 	}
 
 	private void lookingGlass() {
@@ -161,9 +155,9 @@ public class AVLTree<T> {
 			return;
 		}
 
-		DynamicArray<String> edges = new DynamicArray<>();
-		collectEdges(root, edges);
-		IO.println("Estado del AVL:\n" + edges.stream().collect(Collectors.joining(" ")));
+		DynamicArray<String> tokens = new DynamicArray<>();
+		collectPreorder(root, tokens);
+		IO.println("Estado del AVL:\n" + tokens.stream().collect(Collectors.joining(" ")));
 	}
 
 	Node<T> rebalance(Node<T> node) {
