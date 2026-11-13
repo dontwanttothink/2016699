@@ -5,15 +5,12 @@ Véase también el [repositorio para la interfaz gráfica](https://github.com/do
 
 ## Descripción del proyecto
 
-Graduación UNAL es un sistema orientado a la planificación académica
-de estudiantes de pregrado de la Universidad Nacional, cuyo objetivo es
-determinar el número mínimo de semestres necesarios para finalizar un
-plan de estudios cumpliendo las restricciones académicas existentes.
+Graduación UNAL es una demostración básica de estructuras de datos.
 
-El problema aborda la organización de asignaturas con relaciones de
+El sistema aborda la organización de asignaturas con relaciones de
 prerrequisitos y la limitación del número máximo de materias que un
 estudiante puede cursar por semestre. La solución busca modelar estas
-dependencias y generar una ruta óptima de graduación.
+dependencias y generar una ruta óptima, o razonable, de graduación.
 
 El sistema permitirá registrar asignaturas, consultar información
 específica mediante su identificador, analizar las restricciones entre
