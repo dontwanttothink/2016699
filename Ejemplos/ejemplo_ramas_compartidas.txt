@@ -1,0 +1,8 @@
+6001$4$Fundamentos Matemáticos$$
+6002$3$Cálculo I$$6001
+6003$3$Lógica Computacional$$6001
+6004$3$Cálculo II$$6002
+6005$3$Teoría de Autómatas$$6003
+6006$4$Inteligencia Artificial$$6004,6005
+6007$2$Ética Profesional$$
+6008$3$Inglés Técnico$$6007

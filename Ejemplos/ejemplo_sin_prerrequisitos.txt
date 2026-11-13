@@ -1,0 +1,4 @@
+2001$3$Introducción a la Programación$$
+2002$3$Cálculo Básico$$
+2003$2$Expresión Oral$$
+2004$4$Dibujo Técnico$$

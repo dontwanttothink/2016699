@@ -1,0 +1,6 @@
+3001$4$Programación I$$
+3002$4$Programación II$$3001
+3003$4$Estructuras de Datos$$3002
+3004$4$Algoritmos Avanzados$$3003
+3005$4$Compiladores$$3004
+3006$4$Proyecto de Grado$$3005

@@ -1,0 +1,12 @@
+7001$2$Inicio Crítico$$
+7002$2$Cadena I$$7001
+7003$2$Cadena II$$7002
+7004$2$Cadena III$$7003
+7005$2$Cadena IV$$7004
+7006$2$Cadena V$$7005
+7007$2$Señuelo A$$
+7008$2$Señuelo B$$
+7009$2$Hoja A1$$7007
+7010$2$Hoja A2$$7007
+7011$2$Hoja B1$$7008
+7012$2$Hoja B2$$7008
