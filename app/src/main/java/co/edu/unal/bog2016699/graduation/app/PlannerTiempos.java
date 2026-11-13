@@ -16,8 +16,7 @@ import co.edu.unal.bog2016699.graduation.structures.ListPlan;
 
 public class PlannerTiempos {
 	public static void main(String[] args) throws IOException {
-		final int start = 10;
-		final int end = 10_000;
+		final int[] TAMAÑOS = {10, 50, 100, 500, 1_000, 5_000};
 		final int WARMUP_ITERATIONS = 5;
 		final int INTENTOS = 20;
 		final int CREDITOS_MAX = 20;
@@ -26,7 +25,7 @@ public class PlannerTiempos {
 
 		Map<Integer, Map<String, Double>> resultados = new LinkedHashMap<>();
 
-		for (int n = start; n <= end; n *= 10) {
+		for (int n : TAMAÑOS) {
 			System.out.printf("n = %d materias\n", n);
 
 			for (int w = 0; w < WARMUP_ITERATIONS; w++) {
@@ -39,6 +38,8 @@ public class PlannerTiempos {
 
 			long totalNanosList = 0;
 			long totalNanosHeap = 0;
+			int semestresPromedioList = 0;
+			int semestresPromedioHeap = 0;
 
 			for (int rep = 0; rep < INTENTOS; rep++) {
 				// Es necesario generar las materias dos veces porque los métodos de
@@ -51,7 +52,7 @@ public class PlannerTiempos {
 				System.gc();
 
 				long inicio = System.nanoTime();
-				Planner.plan(listPlan, n, CREDITOS_MAX);
+				semestresPromedioList += Planner.plan(listPlan, n, CREDITOS_MAX).size();
 				long fin = System.nanoTime();
 				totalNanosList += (fin - inicio);
 
@@ -60,7 +61,7 @@ public class PlannerTiempos {
 				System.gc();
 
 				inicio = System.nanoTime();
-				Planner.plan(heapPlan, CREDITOS_MAX);
+				semestresPromedioHeap += Planner.plan(heapPlan, CREDITOS_MAX).size();
 				fin = System.nanoTime();
 				totalNanosHeap += (fin - inicio);
 			}
@@ -68,6 +69,8 @@ public class PlannerTiempos {
 			Map<String, Double> promedios = new LinkedHashMap<>();
 			promedios.put("ListPlan", totalNanosList / (double) INTENTOS);
 			promedios.put("HeapPlan", totalNanosHeap / (double) INTENTOS);
+			promedios.put("ListPlanSemestres", semestresPromedioList / (double) INTENTOS);
+			promedios.put("HeapPlanSemestres", semestresPromedioHeap / (double) INTENTOS);
 			resultados.put(n, promedios);
 		}
 
@@ -119,12 +122,15 @@ public class PlannerTiempos {
 
 	private static void guardarCSV(String ruta, Map<Integer, Map<String, Double>> resultados) throws IOException {
 		try (PrintWriter csv = new PrintWriter(new FileWriter(ruta))) {
-			csv.println("Tamano,ListPlan_ns,HeapPlan_ns");
+			csv.println("Tamano,ListPlan_ns,HeapPlan_ns,ListPlanSemestres,HeapPlanSemestres");
 			for (var fila : resultados.entrySet()) {
 				int n = fila.getKey();
 				double tList = fila.getValue().get("ListPlan");
 				double tHeap = fila.getValue().get("HeapPlan");
-				csv.println(String.format(Locale.US, "%d,%.2f,%.2f", n, tList, tHeap));
+				double semestresList = fila.getValue().get("ListPlanSemestres");
+				double semestresHeap = fila.getValue().get("HeapPlanSemestres");
+				
+				csv.println(String.format(Locale.US, "%d,%.2f,%.2f,%.2f,%.2f", n, tList, tHeap, semestresList, semestresHeap));
 			}
 		}
 	}
