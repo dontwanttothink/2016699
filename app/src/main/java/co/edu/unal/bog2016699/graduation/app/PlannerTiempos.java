@@ -16,7 +16,7 @@ import co.edu.unal.bog2016699.graduation.structures.ListPlan;
 
 public class PlannerTiempos {
 	public static void main(String[] args) throws IOException {
-		final int[] TAMAÑOS = {10, 50, 100, 500, 1_000, 5_000};
+		final int[] TAMAÑOS = { 10, 50, 100, 500, 1_000, 5_000 };
 		final int WARMUP_ITERATIONS = 5;
 		final int INTENTOS = 20;
 		final int CREDITOS_MAX = 20;
@@ -129,8 +129,9 @@ public class PlannerTiempos {
 				double tHeap = fila.getValue().get("HeapPlan");
 				double semestresList = fila.getValue().get("ListPlanSemestres");
 				double semestresHeap = fila.getValue().get("HeapPlanSemestres");
-				
-				csv.println(String.format(Locale.US, "%d,%.2f,%.2f,%.2f,%.2f", n, tList, tHeap, semestresList, semestresHeap));
+
+				csv.println(String.format(Locale.US, "%d,%.2f,%.2f,%.2f,%.2f", n, tList, tHeap, semestresList,
+						semestresHeap));
 			}
 		}
 	}
