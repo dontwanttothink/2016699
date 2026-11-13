@@ -140,23 +140,32 @@ public class AVLTree<T> {
 		return Optional.empty();
 	}
 
-	private static <T> void collectPreorder(Node<T> node, DynamicArray<String> tokens) {
+	private static <T> void collectPreorder(Node<T> node, Node<T> replaced, Node<T> replacement,
+			DynamicArray<String> tokens) {
 		if (node == null) {
 			tokens.add("-");
 			return;
 		}
+		if (node == replaced) {
+			node = replacement;
+			replaced = null;
+		}
 		tokens.add(String.valueOf(node.value));
-		collectPreorder(node.left, tokens);
-		collectPreorder(node.right, tokens);
+		collectPreorder(node.left, replaced, replacement, tokens);
+		collectPreorder(node.right, replaced, replacement, tokens);
 	}
 
 	private void lookingGlass() {
+		lookingGlass(null, null);
+	}
+
+	private void lookingGlass(Node<T> replaced, Node<T> replacement) {
 		if (!verbose) {
 			return;
 		}
 
 		DynamicArray<String> tokens = new DynamicArray<>();
-		collectPreorder(root, tokens);
+		collectPreorder(root, replaced, replacement, tokens);
 		IO.println("Estado del AVL:\n" + tokens.stream().collect(Collectors.joining(" ")));
 	}
 
@@ -185,7 +194,7 @@ public class AVLTree<T> {
 		newRoot.left = node;
 		newRoot.updateHeight();
 
-		lookingGlass();
+		lookingGlass(node, newRoot);
 		return newRoot;
 	}
 
@@ -199,7 +208,7 @@ public class AVLTree<T> {
 		newRoot.right = node;
 		newRoot.updateHeight();
 
-		lookingGlass();
+		lookingGlass(node, newRoot);
 		return newRoot;
 	}
 }
